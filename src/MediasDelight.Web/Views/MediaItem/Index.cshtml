@@ -1,0 +1,7 @@
+@model List<MediaItem>
+
+<h1> Index Media Item</h1>
+
+@foreach(MediaItem i in Model ){
+    <p>Title: @i.Name Rating: @i.Rating Desc: @i.Description</p>
+}

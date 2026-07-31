@@ -2,6 +2,8 @@
 using DotNetEnv;
 using MediasDelight.Web.Data;
 using MediasDelight.Web.Models;
+using MediasDelight.Web.Services;
+using MediasDelight.Web.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Envi
 builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 
 var app = builder.Build();
 
