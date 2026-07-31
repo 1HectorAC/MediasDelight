@@ -1,0 +1,25 @@
+@using MediasDelight.Web.Models.ViewModels
+@model CreateMediaItemViewModel
+
+<h1>Create MediaItem</h1>
+
+<form asp-action="Create" asp-controller="MediaItem" method="post">
+    <Label asp-for="Name">Name</Label>
+    <input asp-for="Name" type="text" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+
+    @Html.DropDownListFor(n => n.MediaTypeId,
+        (SelectList)ViewBag.mediaTypes,
+        "Select Media Type", new { })
+    <span asp-validation-for="MediaTypeId" class="text-danger"></span>
+
+    <Label asp-for="Rating">Rating</Label>
+    <input asp-for="Rating" type="number" max="10" min="0" />
+    <span asp-validation-for="Rating" class="text-danger"></span>
+
+    <Label asp-for="Description">Description</Label>
+    <input asp-for="Description" type="text" />
+    <span asp-validation-for="Description" class="text-danger"></span>
+
+    <button>Submit</button>
+</form>
