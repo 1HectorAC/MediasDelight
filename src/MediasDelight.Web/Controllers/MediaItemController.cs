@@ -63,6 +63,18 @@ public class MediaItemController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        Console.WriteLine("delete called");
+        // Need check if exits
+        // Need check if owned by current owner.
+
+        //call delete from service
+
+        return RedirectToAction("Index");
+    }
+
     //Maybe Remove later, with view
     public async Task<IActionResult> Create()
     {
