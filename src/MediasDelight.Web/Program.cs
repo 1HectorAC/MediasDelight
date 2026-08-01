@@ -21,6 +21,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IMediaItemService, MediaItemService>();
+builder.Services.AddScoped<IMediaTypeService, MediaTypeService>();
 
 var app = builder.Build();
 

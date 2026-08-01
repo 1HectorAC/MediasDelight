@@ -8,13 +8,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MediasDelight.Web.Controllers;
 
-public class MediaItemController: Controller
+public class MediaItemController : Controller
 {
     private readonly IMediaItemService _service;
 
-    public MediaItemController(IMediaItemService service)
+    private readonly IMediaTypeService _mediaTypeService;
+
+    public MediaItemController(IMediaItemService service, IMediaTypeService mediaTypeService)
     {
         _service = service;
+        _mediaTypeService = mediaTypeService;
     }
     public async Task<IActionResult> Index()
     {
@@ -24,10 +27,9 @@ public class MediaItemController: Controller
 
     public async Task<IActionResult> Create()
     {
-        List<MediaType> list = [new MediaType{Id = 1, Name= "Show"},new MediaType{Id = 2, Name= "Movie"},new MediaType{Id = 3, Name= "videoGame"}];
+        var list = await _mediaTypeService.GetAllAsync();
         ViewBag.mediaTypes = new SelectList(list, "Id", "Name");
         return View();
-
     }
 
     [HttpPost]
@@ -35,12 +37,11 @@ public class MediaItemController: Controller
     {
         if (!ModelState.IsValid)
         {
-            List<MediaType> list = [new MediaType{Id = 1, Name= "Show"},new MediaType{Id = 2, Name= "Movie"},new MediaType{Id = 3, Name= "videoGame"}];
+            var list = await _mediaTypeService.GetAllAsync();
             ViewBag.mediaTypes = new SelectList(list, "Id", "Name");
             return View(viewModel);
         }
         Console.WriteLine($"Rating: {viewModel.MediaTypeId}");
-
 
         return RedirectToAction("Index");
     }
