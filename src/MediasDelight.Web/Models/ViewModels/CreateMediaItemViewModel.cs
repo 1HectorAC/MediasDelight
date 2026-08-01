@@ -7,7 +7,7 @@ public class CreateMediaItemViewModel
 {
 
     [Required]
-    public int? MediaTypeId {get; set;}
+    public int MediaTypeId {get; set;}
 
     [Required]
     [StringLength(128)]

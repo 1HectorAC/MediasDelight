@@ -21,10 +21,49 @@ public class MediaItemController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        var items = await _service.GetAllAsync();
-        return View(items);
+        var mediaItems = await _service.GetAllAsync();
+        var mediaTypes = await _mediaTypeService.GetAllAsync();
+        var vm = new MediaItemIndexPageViewModel
+        {
+            Items = mediaItems,
+            AddItem = new CreateMediaItemViewModel {Name = string.Empty},
+            MediaTypes = new SelectList(mediaTypes, "Id", "Name")
+        };
+
+        return View(vm);
     }
 
+
+    [HttpPost]
+    public async Task<IActionResult> Add(CreateMediaItemViewModel addItem)
+    {
+        if (!ModelState.IsValid)
+        {
+            var vm = new MediaItemIndexPageViewModel
+            {
+                Items = await _service.GetAllAsync(),
+                AddItem = addItem,
+                MediaTypes = new SelectList(await _mediaTypeService.GetAllAsync(), "Id", "Name")
+            };
+
+            return View("Index", vm);
+        }
+        var mediaItem = new MediaItem
+        {
+            Name = addItem.Name,
+            UserId = "get user Id from logged in user",
+            MediaTypeId = addItem.MediaTypeId,
+            Rating = addItem.Rating,
+            Description = addItem.Description,
+            TimeStamp = DateTime.UtcNow
+        };
+
+        await _service.AddAsync(mediaItem);
+
+        return RedirectToAction("Index");
+    }
+
+    //Maybe Remove later, with view
     public async Task<IActionResult> Create()
     {
         var list = await _mediaTypeService.GetAllAsync();

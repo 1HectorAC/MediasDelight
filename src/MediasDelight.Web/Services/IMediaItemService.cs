@@ -7,7 +7,7 @@ public interface IMediaItemService
 {
     Task<List<MediaItem>> GetAllAsync();
 
-    Task AddAsync();
+    Task AddAsync(MediaItem mediaItem);
 
     
 }

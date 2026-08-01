@@ -16,7 +16,7 @@ public class MediaItemService: IMediaItemService
         return items;
     }
 
-    public async Task AddAsync()
+    public async Task AddAsync(MediaItem mediaItem)
     {
         
     }

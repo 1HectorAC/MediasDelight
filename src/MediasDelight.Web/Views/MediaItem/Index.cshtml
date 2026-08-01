@@ -1,10 +1,32 @@
-@model List<MediaItem>
+@using MediasDelight.Web.Models.ViewModels
+@model MediaItemIndexPageViewModel
 
 <h1> Index Media Item</h1>
 <hr />
-<a asp-action="Create" asp-controller="MediaItem">Add item</a>
+<h5>Add Item</h5>
+<form asp-action="Add" asp-controller="MediaItem" method="post">
+    <Label asp-for="AddItem.Name">Name</Label>
+    <input asp-for="AddItem.Name" type="text" />
+    <span asp-validation-for="AddItem.Name" class="text-danger"></span>
+
+    @Html.DropDownListFor(n => n.AddItem.MediaTypeId,
+        (SelectList)Model.MediaTypes,
+        "Select Media Type", new { })
+    <span asp-validation-for="AddItem.MediaTypeId" class="text-danger"></span>
+
+    <Label asp-for="AddItem.Rating">Rating</Label>
+    <input asp-for="AddItem.Rating" type="number" max="10" min="0" />
+    <span asp-validation-for="AddItem.Rating" class="text-danger"></span>
+
+    <Label asp-for="AddItem.Description">Description</Label>
+    <input asp-for="AddItem.Description" type="text" />
+    <span asp-validation-for="AddItem.Description" class="text-danger"></span>
+
+    <button>Submit</button>
+</form>
+
 <hr />
 <h5>List of items</h5>
-@foreach(MediaItem i in Model ){
-    <p>Title: @i.Name Rating: @i.Rating Desc: @i.Description</p>
+@foreach(MediaItem i in Model.Items ){
+    <p>Title: @i.Name, MediaTypeId: @i.MediaTypeId Rating: @i.Rating, Desc: @i.Description</p>
 }
