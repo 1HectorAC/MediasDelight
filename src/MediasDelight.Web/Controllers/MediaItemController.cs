@@ -22,11 +22,19 @@ public class MediaItemController : Controller
     public async Task<IActionResult> Index()
     {
         var mediaItems = await _service.GetAllAsync();
+        var mediaItemsVm = mediaItems.Select(i => new MediaItemViewModel
+        {
+            Id = i.Id,
+            MediaTypeName = i.MediaType?.Name ?? "tempValue",
+            Name = i.Name,
+            Rating = i.Rating,
+            Description = i.Description
+        }).ToList();
         var mediaTypes = await _mediaTypeService.GetAllAsync();
         var vm = new MediaItemIndexPageViewModel
         {
-            Items = mediaItems,
-            AddItem = new CreateMediaItemViewModel {Name = string.Empty},
+            Items = mediaItemsVm,
+            AddItem = new CreateMediaItemViewModel { Name = string.Empty },
             MediaTypes = new SelectList(mediaTypes, "Id", "Name")
         };
 
@@ -39,9 +47,19 @@ public class MediaItemController : Controller
     {
         if (!ModelState.IsValid)
         {
+            var mediaItems = await _service.GetAllAsync();
+            var mediaItemsVm = mediaItems.Select(i => new MediaItemViewModel
+            {
+                Id = i.Id,
+                MediaTypeName = i.MediaType?.Name ?? "tempValue",
+                Name = i.Name,
+                Rating = i.Rating,
+                Description = i.Description
+            }).ToList();
+            
             var vm = new MediaItemIndexPageViewModel
             {
-                Items = await _service.GetAllAsync(),
+                Items = mediaItemsVm,
                 AddItem = addItem,
                 MediaTypes = new SelectList(await _mediaTypeService.GetAllAsync(), "Id", "Name")
             };
