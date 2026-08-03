@@ -16,6 +16,17 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("DB_STRING")));
 
+
+builder.Services.AddHttpClient<GeminiService>("Gemini", client =>
+{
+    client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/v1beta/");
+    client.DefaultRequestHeaders.Add("x-goog-api-key",
+    Environment.GetEnvironmentVariable("GEMINI_API_KEY")
+    );
+});
+
+
+
 builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
