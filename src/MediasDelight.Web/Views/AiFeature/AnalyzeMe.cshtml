@@ -1,6 +1,32 @@
-
-
 <h1>Analyze Me Page</h1>
-@if(ViewBag.test != null){
-    <p> @ViewBag.Test</p>
-}
+<br/>
+<p>Description: Coming soon</p>
+<button id="analyzeMeButton">Analyze me Now!!!</button>
+<br/>
+
+<p id="responseSection"></p>
+
+<script>
+    var analyzeBtn = document.querySelector("#analyzeMeButton");
+    analyzeBtn.addEventListener("click", e => {
+        var responseSection = document.querySelector("#responseSection");
+        responseSection.textContent = "Loading...";
+        analyzeBtn.disabled = true;
+        fetch("/AiFeature/GenerateResponse", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        }).then(async response => {
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error);
+            }
+            return response.text();
+        }).then(data => {
+            var responseSection = document.querySelector("#responseSection");
+            responseSection.textContent = data;
+        }).catch(err => {
+            console.log("Fetch error: " + err.message);
+        })
+    });
+
+</script>

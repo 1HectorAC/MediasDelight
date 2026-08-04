@@ -16,11 +16,22 @@ public class AiFeatureController: Controller
     
     public async Task<IActionResult> AnalyzeMe()
     {
-        string test = "Describe what a giraffe looks like";
-        var result = await _geminiService.GenerateTextAsync(test);
-
-        ViewBag.test = result;
         return View();
+    }
+
+    [HttpPost]
+    public async Task<string> GenerateResponse()
+    {
+        try
+        {
+            string test = "Describe what a giraffe looks like";
+            var result = await _geminiService.GenerateTextAsync(test);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return "API call error.";
+        }    
     }
 
     public async Task<IActionResult> AssessWork()
