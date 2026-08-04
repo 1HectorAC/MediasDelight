@@ -7,5 +7,5 @@ public interface IMediaTypeService
 {
     Task<List<MediaType>> GetAllAsync();
 
-    
+    Task<MediaType?> GetByIdAsync(int id);
 }

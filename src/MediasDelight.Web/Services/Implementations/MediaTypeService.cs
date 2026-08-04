@@ -17,4 +17,10 @@ public class MediaTypeService : IMediaTypeService
         return list;
     }
 
+    public async Task<MediaType?> GetByIdAsync(int id)
+    {
+        MediaType mediaType = new MediaType {Id = 1, Name="Video Game"};
+        return mediaType;
+    }
+
 }
