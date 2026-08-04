@@ -1,32 +1,64 @@
+@model List<MediaType>
 <h1>Analyze Me Page</h1>
-<br/>
+<hr />
 <p>Description: Coming soon</p>
+<hr />
+<p>Select a Media Type:</p>
+@foreach (MediaType i in Model)
+{
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
+        @i.Name
+        <label class="form-check-label" for="mediaType-@i.Id"></label>
+    </div>
+
+}
+<span class="text-danger error"></span>
 <button id="analyzeMeButton">Analyze me Now!!!</button>
-<br/>
+<hr />
 
 <p id="responseSection"></p>
 
 <script>
     var analyzeBtn = document.querySelector("#analyzeMeButton");
     analyzeBtn.addEventListener("click", e => {
-        var responseSection = document.querySelector("#responseSection");
-        responseSection.textContent = "Loading...";
-        analyzeBtn.disabled = true;
-        fetch("/AiFeature/GenerateResponse", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        }).then(async response => {
-            if (!response.ok) {
-                const error = await response.text();
-                throw new Error(error);
-            }
-            return response.text();
-        }).then(data => {
+        // Check if radio button was selected first
+        var radioChecked = document.querySelector('input[name="mediaTypes"]:checked');
+        if (!radioChecked) {
+            document.querySelector(".error").textContent = "Need to select a Media type";
+        }
+        else {
+            document.querySelector(".error").textContent = "";
+            var radioValue = radioChecked.value;
+
+            // Changes to page while loading response
             var responseSection = document.querySelector("#responseSection");
-            responseSection.textContent = data;
-        }).catch(err => {
-            console.log("Fetch error: " + err.message);
-        })
+            responseSection.textContent = "Loading...";
+            analyzeBtn.disabled = true;
+            
+            fetch("/AiFeature/GenerateAnalyzeMeResponse", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: radioValue
+
+            }).then(async response => {
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(error);
+                }
+                return response.json();
+            }).then(data => {
+                var responseSection = document.querySelector("#responseSection");
+                responseSection.textContent = data.response;
+                analyzeBtn.disabled = false;
+            }).catch(err => {
+                console.log("Fetch error: " + err.message);
+            })
+            
+        }
+
     });
 
 </script>
