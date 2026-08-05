@@ -13,4 +13,8 @@ public class MediaItemViewModel
 
     public string? Description {get; set;}
 
+    public string? Likes {get; set;}
+
+    public string? Dislikes {get; set;}
+
 }

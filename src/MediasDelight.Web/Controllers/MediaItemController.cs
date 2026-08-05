@@ -1,4 +1,5 @@
 
+using System.Security.Claims;
 using MediasDelight.Web.Models;
 using MediasDelight.Web.Models.ViewModels;
 using MediasDelight.Web.Services;
@@ -23,16 +24,27 @@ public class MediaItemController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        var mediaItems = await _service.GetAllAsync();
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+
+        // Formating: convert MediaItems to MediaItemsViewModel
+        var mediaItems = await _service.GetAllByUserIdAsync(userId);
         var mediaItemsVm = mediaItems.Select(i => new MediaItemViewModel
         {
             Id = i.Id,
-            MediaTypeName = i.MediaType?.Name ?? "tempValue",
+            MediaTypeName = i.MediaType?.Name ?? "Empty Value",
             Name = i.Name,
             Rating = i.Rating,
-            Description = i.Description
+            Likes = i.Likes,
+            Dislikes = i.Dislikes
         }).ToList();
+
+        // Data Retrive: MediaTypes, for options selection in view.
         var mediaTypes = await _mediaTypeService.GetAllAsync();
+
+        // Formating: Main view model being returned to view
         var vm = new MediaItemIndexPageViewModel
         {
             Items = mediaItemsVm,
@@ -43,79 +55,73 @@ public class MediaItemController : Controller
         return View(vm);
     }
 
-
     [HttpPost]
     public async Task<IActionResult> Add(CreateMediaItemViewModel addItem)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+
         if (!ModelState.IsValid)
         {
-            var mediaItems = await _service.GetAllAsync();
+            // ModelState failed: need to setup view models again, like in Index function
+
+            // Formating: convert MediaItems to MediaItemsViewModel
+            var mediaItems = await _service.GetAllByUserIdAsync(userId);
             var mediaItemsVm = mediaItems.Select(i => new MediaItemViewModel
             {
                 Id = i.Id,
-                MediaTypeName = i.MediaType?.Name ?? "tempValue",
+                MediaTypeName = i.MediaType?.Name ?? "Empty Value",
                 Name = i.Name,
                 Rating = i.Rating,
-                Description = i.Description
+                Likes = i.Likes,
+                Dislikes = i.Dislikes
             }).ToList();
-            
+
+            // Data Retrive: MediaTypes, for options selection in view.
+            var mediaTypes = await _mediaTypeService.GetAllAsync();
+
+            // Formating: Main view model being returned to view
             var vm = new MediaItemIndexPageViewModel
             {
                 Items = mediaItemsVm,
                 AddItem = addItem,
-                MediaTypes = new SelectList(await _mediaTypeService.GetAllAsync(), "Id", "Name")
+                MediaTypes = new SelectList(mediaTypes, "Id", "Name")
             };
 
             return View("Index", vm);
         }
+
+        // Format & Add: mediaItem to db
         var mediaItem = new MediaItem
         {
             Name = addItem.Name,
-            UserId = "get user Id from logged in user",
+            UserId = userId,
             MediaTypeId = addItem.MediaTypeId,
             Rating = addItem.Rating,
-            Description = addItem.Description,
+            Likes = addItem.Likes,
+            Dislikes = addItem.Dislikes,
             TimeStamp = DateTime.UtcNow
         };
-
         await _service.AddAsync(mediaItem);
 
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        Console.WriteLine("delete called");
-        // Need check if exits
         // Need check if owned by current owner.
 
-        //call delete from service
-
-        return RedirectToAction("Index");
-    }
-
-    //Maybe Remove later, with view
-    public async Task<IActionResult> Create()
-    {
-        var list = await _mediaTypeService.GetAllAsync();
-        ViewBag.mediaTypes = new SelectList(list, "Id", "Name");
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(CreateMediaItemViewModel viewModel)
-    {
-        if (!ModelState.IsValid)
+        try
         {
-            var list = await _mediaTypeService.GetAllAsync();
-            ViewBag.mediaTypes = new SelectList(list, "Id", "Name");
-            return View(viewModel);
+            await _service.DeleteAsync(id);
         }
-        Console.WriteLine($"Rating: {viewModel.MediaTypeId}");
+        catch (Exception)
+        {
+            return BadRequest("MediaItem Id did not exits");
+        }
 
         return RedirectToAction("Index");
     }
-
-
 }

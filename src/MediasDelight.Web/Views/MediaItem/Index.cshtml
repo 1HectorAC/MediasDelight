@@ -25,10 +25,16 @@
             <span asp-validation-for="AddItem.Rating" class="text-danger"></span>
         </div>
         <div class="col-md-6">
-            <Label asp-for="AddItem.Description">Description</Label>
-            <input asp-for="AddItem.Description" type="text" class="form-control" />
-            <span asp-validation-for="AddItem.Description" class="text-danger"></span>
+            <Label asp-for="AddItem.Likes">Likes</Label>
+            <input asp-for="AddItem.Likes" type="text" class="form-control" />
+            <span asp-validation-for="AddItem.Likes" class="text-danger"></span>
         </div>
+        <div class="col-md-6">
+            <Label asp-for="AddItem.Dislikes">Dislikes</Label>
+            <input asp-for="AddItem.Dislikes" type="text" class="form-control" />
+            <span asp-validation-for="AddItem.Dislikes" class="text-danger"></span>
+        </div>
+        
         <div class="col-md-2 offset-5 text-center">
             <br/>
             <button class="btn btn-primary">Submit</button>
@@ -40,7 +46,7 @@
 <h5 class="text-center">All items</h5>
 @foreach (MediaItemViewModel i in Model.Items)
 {
-    <p>Title: @i.Name, MediaTypeId: @i.MediaTypeName Rating: @i.Rating, Desc: @i.Description</p>
+    <p>Title: @i.Name, MediaTypeId: @i.MediaTypeName Rating: @i.Rating, Likes: @i.Likes, Dislikes: @i.Dislikes</p>
     <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
 }
 
