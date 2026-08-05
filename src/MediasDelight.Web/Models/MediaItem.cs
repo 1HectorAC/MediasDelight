@@ -27,6 +27,12 @@ public class MediaItem
     [StringLength(500)]
     public string? Description {get; set;}
 
+    [StringLength(500)]
+    public string? Likes {get; set;}
+
+    [StringLength(500)]
+    public string? Dislikes {get; set;}
+
     [Required]
     public DateTime TimeStamp {get; set;}
 
