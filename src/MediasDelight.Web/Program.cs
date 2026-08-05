@@ -2,6 +2,8 @@
 using DotNetEnv;
 using MediasDelight.Web.Data;
 using MediasDelight.Web.Models;
+using MediasDelight.Web.Repositories;
+using MediasDelight.Web.Repositories.Implementations;
 using MediasDelight.Web.Services;
 using MediasDelight.Web.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +33,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 builder.Services.AddScoped<IMediaTypeService, MediaTypeService>();
 

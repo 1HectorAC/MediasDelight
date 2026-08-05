@@ -7,10 +7,13 @@ public interface IMediaItemService
 {
     Task<List<MediaItem>> GetAllAsync();
 
+    Task<List<MediaItem>> GetAllByUserIdAsync(string userId);
+
     Task<List<MediaItem>> GetAllByMediaTypeIdAsync(int mediaTypeId);
+    
 
     Task AddAsync(MediaItem mediaItem);
 
+    Task DeleteAsync(int id);
 
-    
 }

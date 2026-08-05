@@ -1,21 +1,26 @@
 
 using MediasDelight.Web.Models;
+using MediasDelight.Web.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediasDelight.Web.Services.Implementations;
 
 public class MediaTypeService : IMediaTypeService
 {
+    private readonly IGenericRepository<MediaType> _mediaTypeRepo;
+    public MediaTypeService(IGenericRepository<MediaType> mediaTypeRepo)
+    {
+        _mediaTypeRepo = mediaTypeRepo;
+    }
+
     public async Task<List<MediaType>> GetAllAsync()
     {
-        // Change to Db query later.
-        List<MediaType> list = [
-            new MediaType{Id = 1, Name= "Show"},
-            new MediaType{Id = 2, Name= "Movie"},
-            new MediaType{Id = 3, Name= "videoGame"}
-            ];
+        var mediaTypes = await _mediaTypeRepo.Query().ToListAsync();
 
-        return list;
+        return mediaTypes;
     }
+
+
 
     public async Task<MediaType?> GetByIdAsync(int id)
     {
