@@ -1,4 +1,5 @@
 
+using System.Security.Claims;
 using MediasDelight.Web.Services;
 using MediasDelight.Web.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,6 @@ public class AiFeatureController : Controller
     {
         var mediaTypes = await _mediaTypeService.GetAllAsync();
 
-
         return View(mediaTypes);
     }
 
@@ -39,19 +39,18 @@ public class AiFeatureController : Controller
     {
 
         if (!ModelState.IsValid)
-        {
             return BadRequest("ModelType Id wasnt valid: " + mediaTypeId);
-        }
 
-        // Validation: check if mediaItem exits
+        // Data Retrive: Get mediaType of passed in mediaTypeId
         var mediaType = _mediaTypeService.GetByIdAsync(mediaTypeId);
         if (mediaType is null)
-        {
             return BadRequest("mediaType Id passed in was not valid");
-        }
 
-        // Data Retrive: Get users mediaItems based on mediaTypeId
-        //var mediaItems = await _mediaItemService.GetAllByMediaTypeIdAsync(mediaTypeId);
+        // Data Retrive: Get users mediaItems
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if(userId is null)
+            return RedirectToAction("Index", "Home");
+        var mediaItems = await _mediaItemService.GetAllByUserIdAndMediaTypeIdAsync(userId, mediaTypeId);
 
         // Construct prompt for api call using MediaItems + mediaType
 

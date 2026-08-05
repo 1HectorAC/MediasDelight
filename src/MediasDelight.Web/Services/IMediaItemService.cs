@@ -9,8 +9,7 @@ public interface IMediaItemService
 
     Task<List<MediaItem>> GetAllByUserIdAsync(string userId);
 
-    Task<List<MediaItem>> GetAllByMediaTypeIdAsync(int mediaTypeId);
-    
+    Task<List<MediaItem>> GetAllByUserIdAndMediaTypeIdAsync(string userId, int mediaTypeId);
 
     Task AddAsync(MediaItem mediaItem);
 

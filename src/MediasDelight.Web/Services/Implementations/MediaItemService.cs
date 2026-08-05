@@ -34,7 +34,7 @@ public class MediaItemService : IMediaItemService
         return mediaItems;
     }
 
-    public async Task<List<MediaItem>> GetAllByMediaTypeIdAsync(int mediaTypeId)
+    public async Task<List<MediaItem>> GetAllByUserIdAndMediaTypeIdAsync(string userId, int mediaTypeId)
     {
         var items = new List<MediaItem>
         {

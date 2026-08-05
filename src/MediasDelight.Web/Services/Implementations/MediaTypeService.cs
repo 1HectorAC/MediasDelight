@@ -24,7 +24,7 @@ public class MediaTypeService : IMediaTypeService
 
     public async Task<MediaType?> GetByIdAsync(int id)
     {
-        MediaType mediaType = new MediaType {Id = 1, Name="Video Game"};
+        var mediaType = await _mediaTypeRepo.GetByIdAsync(id);
         return mediaType;
     }
 
