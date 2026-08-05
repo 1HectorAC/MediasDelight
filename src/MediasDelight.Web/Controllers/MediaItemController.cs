@@ -2,12 +2,14 @@
 using MediasDelight.Web.Models;
 using MediasDelight.Web.Models.ViewModels;
 using MediasDelight.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace MediasDelight.Web.Controllers;
 
+[Authorize]
 public class MediaItemController : Controller
 {
     private readonly IMediaItemService _service;

@@ -1,11 +1,13 @@
 
 using MediasDelight.Web.Services;
 using MediasDelight.Web.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.SolutionPersistence.Model;
 
 namespace MediasDelight.Web.Controllers;
 
+[Authorize]
 public class AiFeatureController : Controller
 {
     private readonly GeminiService _geminiService;
