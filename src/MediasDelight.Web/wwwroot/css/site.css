@@ -1,3 +1,8 @@
+:root{
+  --main-back: rgb(50, 55, 95);
+  --main-orange: rgb(255, 205, 41);
+}
+
 html {
   font-size: 14px;
 }
@@ -19,6 +24,21 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: var(--main-back);
+}
+h1, p{
+  color:white;
+}
+.button1{
+  background-color: var(--main-orange);
+}
+
+.greyText{
+  color:rgb(230, 230, 230);
+}
+
+.headerSection{
+  padding: 24px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
