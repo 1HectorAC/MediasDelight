@@ -1,10 +1,8 @@
 
 using System.Security.Claims;
 using MediasDelight.Web.Services;
-using MediasDelight.Web.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.SolutionPersistence.Model;
 
 namespace MediasDelight.Web.Controllers;
 
@@ -41,26 +39,38 @@ public class AiFeatureController : Controller
         if (!ModelState.IsValid)
             return BadRequest("ModelType Id wasnt valid: " + mediaTypeId);
 
-        // Data Retrive: Get mediaType of passed in mediaTypeId
-        var mediaType = _mediaTypeService.GetByIdAsync(mediaTypeId);
+        // DATA RETRIVE: Get mediaType of passed in mediaTypeId
+        var mediaType = await _mediaTypeService.GetByIdAsync(mediaTypeId);
         if (mediaType is null)
             return BadRequest("mediaType Id passed in was not valid");
 
-        // Data Retrive: Get users mediaItems
+        // DATA RETRIVE: Get users mediaItems
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if(userId is null)
+        if (userId is null)
             return RedirectToAction("Index", "Home");
         var mediaItems = await _mediaItemService.GetAllByUserIdAndMediaTypeIdAsync(userId, mediaTypeId);
 
-        // Construct prompt for api call using MediaItems + mediaType
+        // VALIDATION: user has no mediaItems handling
+        if(mediaItems.Count == 0)
+        {
+            return Json(new { response = "No items exits in Media Items" });
+        }
+
+        // DATA FORMATING: Construct prompt for api call
+        string mediaTypeSentence = $"The media type is {mediaType.Name}.";
+
+        string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
+        string mediaItemFullString = string.Join(",", mediaItemStrings);
+        string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
+
+        // ISSUE: Handle items not being recognized. Add to prompt.
+        // ISSUE: Add more response text formating to improve readability.
+        // ISSUE: Change return formating (respond, list of items not recognize). Add to prompt
+        string prompt = "Your goal is the help users better understand themselves and their media preferences by analyzing some data you are given. You will be given a media type and a list of media items with some information (Likes, Dislikes, rating out of 10). You will analyze them and respond with an analysis of their preference." + mediaTypeSentence + mediaItemSentece;
 
         try
         {
-            // Test of Api call, remove later
-            // test = "Describe what a giraffe looks like";
-            //var result = await _geminiService.GenerateTextAsync(test);
-
-            var result = "You have too much free time. Touch grass instead.";
+            var result = await _geminiService.GenerateTextAsync(prompt);
             return Json(new { response = result });
         }
         catch (Exception)
