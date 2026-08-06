@@ -22,11 +22,12 @@
 <p id="responseSection"></p>
 
 <script>
-    // MediaTypes object: used in results section (indicate selection)
+    // DATA FORMATING: used in results section (indicate selection)
     var mediaTypes = @Html.Raw(JsonSerializer.Serialize(Model));
 
-    document.querySelector("#analyzeMeButton").addEventListener("click", e => {
-        // Input check: Check if radio button was selected
+    var analyzeBtn = document.querySelector('#analyzeMeButton');
+    analyzeBtn.addEventListener("click", e => {
+        // VALIDATION: Check if radio button was selected
         var radioChecked = document.querySelector('input[name="mediaTypes"]:checked');
         if (!radioChecked) {
             document.querySelector(".error").textContent = "Need to select a Media type";
@@ -35,14 +36,14 @@
             document.querySelector(".error").textContent = "";
             var radioValue = radioChecked.value;
 
-            // Loading indicators: modify some elements to indicate loading status
+            // LOADING INDICATOR: modify some elements to indicate loading status
             var responseSection = document.querySelector("#responseSection");
             responseSection.textContent = "Loading...";
             analyzeBtn.disabled = true;
 
             fetch("/AiFeature/GenerateAnalyzeMeResponse", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: radioValue
             }).then(async response => {
                 if (!response.ok) {
@@ -51,20 +52,19 @@
                 }
                 return response.json();
             }).then(data => {
-                // Results: Set response text
+                // RESULTS: Set response text
                 document.querySelector("#responseSection").textContent = data.response;
 
-                // Results: Set MediaType indicator
+                // RESULT: Set MediaType indicator
                 document.querySelector("#mediaTypeIndicator").textContent = mediaTypes.filter(i => i.Id == radioValue)[0].Name;
-                
-                // Re-enable analyze button
+
+                // RESULT: Re-enable analyze button
                 analyzeBtn.disabled = false;
             }).catch(err => {
                 console.log("Fetch error: " + err.message);
             })
 
         }
-
     });
 
 </script>

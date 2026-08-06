@@ -14,21 +14,13 @@ public class MediaItemService : IMediaItemService
         _mediaItemRepo = mediaItemRepo;
     }
 
-    public async Task<List<MediaItem>> GetAllAsync()
-    {
-        var items = new List<MediaItem>
-        {
-            new MediaItem {Id=1, UserId="1", MediaTypeId=1, Name="Awsome show", Rating=5, Description="goodish", TimeStamp= DateTime.UtcNow},
-            new MediaItem {Id=2, UserId="1", MediaTypeId=1, Name="The thing", Rating=5, Description="goodish", TimeStamp= DateTime.UtcNow}
-        };
-        return items;
-    }
-
     public async Task<List<MediaItem>> GetAllByUserIdAsync(string userId)
     {
         var mediaItems = await _mediaItemRepo
             .Query()
             .Where(i => i.UserId == userId)
+            .Include(i => i.MediaType)
+            .AsNoTracking()
             .ToListAsync();
 
         return mediaItems;
@@ -36,14 +28,13 @@ public class MediaItemService : IMediaItemService
 
     public async Task<List<MediaItem>> GetAllByUserIdAndMediaTypeIdAsync(string userId, int mediaTypeId)
     {
-        var items = new List<MediaItem>
-        {
-            new MediaItem {Id=1, UserId="1", MediaTypeId=1, Name="Awsome show", Rating=5, Description="goodish", TimeStamp= DateTime.UtcNow},
-            new MediaItem {Id=2, UserId="1", MediaTypeId=1, Name="The thing", Rating=5, Description="goodish", TimeStamp= DateTime.UtcNow}
-        };
-        return items;
-    }
+        var mediaItems = await _mediaItemRepo.Query()
+            .Where(i => i.UserId == userId && i.MediaTypeId == mediaTypeId)
+            .AsNoTracking()
+            .ToListAsync();
 
+        return mediaItems;
+    }
 
     public async Task AddAsync(MediaItem mediaItem)
     {

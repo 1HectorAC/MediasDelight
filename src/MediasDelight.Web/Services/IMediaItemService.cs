@@ -5,7 +5,6 @@ namespace MediasDelight.Web.Services;
 
 public interface IMediaItemService
 {
-    Task<List<MediaItem>> GetAllAsync();
 
     Task<List<MediaItem>> GetAllByUserIdAsync(string userId);
 

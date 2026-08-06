@@ -46,7 +46,7 @@
 <h5 class="text-center">All items</h5>
 @foreach (MediaItemViewModel i in Model.Items)
 {
-    <p>Title: @i.Name, MediaTypeId: @i.MediaTypeName Rating: @i.Rating, Likes: @i.Likes, Dislikes: @i.Dislikes</p>
+    <p>Title: @i.Name, MediaTypeName: @i.MediaTypeName, Rating: @i.Rating, Likes: @i.Likes, Dislikes: @i.Dislikes</p>
     <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
 }
 
