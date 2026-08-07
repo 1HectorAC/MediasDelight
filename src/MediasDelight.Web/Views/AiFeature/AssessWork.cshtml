@@ -1,2 +1,83 @@
+@using System.Text.Json
+
+@model List<MediaType>
 
 <h1> Assess Work</h1>
+<hr />
+<p>Description: Coming soon</p>
+<hr />
+<p>Select a Media Type:</p>
+@foreach (MediaType i in Model)
+{
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
+        @i.Name
+        <label class="form-check-label" for="mediaType-@i.Id"></label>
+    </div>
+}
+<div>
+    <label for="mediaWork" class="form-label">Media Work</label>
+    <input type="text" class="form-control" id="mediaWork" placeholder="The Great Gatsby" />
+</div>
+
+<span class="text-danger error"></span>
+<button id="submitButton">Assess Work!!!</button>
+<hr />
+
+<p>Result(<span id="mediaTypeIndicator"></span>):</p>
+<p id="responseSection"></p>
+
+<script>
+    // DATA FORMATING: used in results section (indicate selection)
+    var mediaTypes = @Html.Raw(JsonSerializer.Serialize(Model));
+
+    var submitBtn = document.querySelector('#submitButton');
+    submitBtn.addEventListener("click", e => {
+        // DATA RETRIEVE: Get mediaType radio and mediaWorkName
+        var radioChecked = document.querySelector('input[name="mediaTypes"]:checked');
+        var mediaWorkName = document.querySelector("#mediaWork").value;
+
+        // VALIDATION: Check that mediaType radio and mediaWorkName text input are filled
+        if (!radioChecked) {
+            document.querySelector(".error").textContent = "Need to select a Media type";
+        }
+        else if (!mediaWorkName || mediaWorkName.trim().length === 0) {
+            document.querySelector(".error").textContent = "Need to enter a media work name.";
+        }
+        else {
+            document.querySelector(".error").textContent = "";
+            var radioValue = radioChecked.value;
+
+            
+            // LOADING INDICATOR: modify some elements to indicate loading status
+            var responseSection = document.querySelector("#responseSection");
+            responseSection.textContent = "Loading...";
+            submitBtn.disabled = true;
+
+            fetch("/AiFeature/GenerateAssessWorkResponse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mediaTypeId: radioValue, mediaWorkName: mediaWorkName })
+            }).then(async response => {
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(error);
+                }
+                return response.json();
+            }).then(data => {
+                // RESULTS: Set response text
+                document.querySelector("#responseSection").textContent = data.response;
+
+                // RESULT: Set MediaType indicator
+                document.querySelector("#mediaTypeIndicator").textContent = mediaTypes.filter(i => i.Id == radioValue)[0].Name;
+
+                // RESULT: Re-enable analyze button
+                submitBtn.disabled = false;
+            }).catch(err => {
+                console.log("Fetch error: " + err.message);
+            })
+
+        }
+    });
+
+</script>

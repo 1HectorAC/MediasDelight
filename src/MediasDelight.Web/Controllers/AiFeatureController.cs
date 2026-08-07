@@ -1,5 +1,6 @@
 
 using System.Security.Claims;
+using MediasDelight.Web.DTO;
 using MediasDelight.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -81,11 +82,31 @@ public class AiFeatureController : Controller
 
     public async Task<IActionResult> AssessWork()
     {
-        return View();
+        var mediaTypes = await _mediaTypeService.GetAllAsync();
+
+        return View(mediaTypes);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GenerateAssessWorkResponse([FromBody] AssessWorkRequestDto data)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest("Invalid request body.");
+        }
+
+        // TODO: replace below with API handling
+        Console.WriteLine($"{data.MediaTypeId} and {data.MediaWorkName}");
+        var result = data.MediaWorkName + " is pretty good... probably.";
+        
+
+        return Json(new {response = result});
     }
     public async Task<IActionResult> RecommendWorks()
     {
-        return View();
+        var mediaTypes = await _mediaTypeService.GetAllAsync();
+
+        return View(mediaTypes);
     }
 
 }
