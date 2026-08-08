@@ -52,10 +52,8 @@ public class AiFeatureController : Controller
         var mediaItems = await _mediaItemService.GetAllByUserIdAndMediaTypeIdAsync(userId, mediaTypeId);
 
         // VALIDATION: user has no mediaItems handling
-        if(mediaItems.Count == 0)
-        {
+        if (mediaItems.Count == 0)
             return Json(new { response = "No items exits in Media Items" });
-        }
 
         // DATA FORMATING: Construct prompt for api call
         string mediaTypeSentence = $"The media type is {mediaType.Name}.";
@@ -91,22 +89,90 @@ public class AiFeatureController : Controller
     public async Task<IActionResult> GenerateAssessWorkResponse([FromBody] AssessWorkRequestDto data)
     {
         if (!ModelState.IsValid)
-        {
             return BadRequest("Invalid request body.");
+
+        // DATA RETRIVE: Get mediaType of passed in mediaTypeId
+        var mediaType = await _mediaTypeService.GetByIdAsync(data.MediaTypeId);
+        if (mediaType is null)
+            return BadRequest("mediaType Id passed in was not valid");
+
+        // DATA RETRIVE: Get users mediaItems
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+        var mediaItems = await _mediaItemService.GetAllByUserIdAndMediaTypeIdAsync(userId, data.MediaTypeId);
+
+        // VALIDATION: user has no mediaItems handling
+        if (mediaItems.Count == 0)
+            return Json(new { response = "No items exits in Media Items" });
+
+        // DATA FORMATING: Construct prompt for api call
+        string mediaTypeSentence = $"The media type is {mediaType.Name}.";
+
+        string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
+        string mediaItemFullString = string.Join(",", mediaItemStrings);
+        string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
+        // TODO: Edit prompt below
+        //string prompt = "Assessing work:" + mediaTypeSentence + mediaItemSentece;
+        var result = "Test assess is working";
+
+        try
+        {
+            //var result = await _geminiService.GenerateTextAsync(prompt);
+            return Json(new { response = result });
         }
-
-        // TODO: replace below with API handling
-        Console.WriteLine($"{data.MediaTypeId} and {data.MediaWorkName}");
-        var result = data.MediaWorkName + " is pretty good... probably.";
-        
-
-        return Json(new {response = result});
+        catch (Exception)
+        {
+            return BadRequest("API response error.");
+        }
     }
     public async Task<IActionResult> RecommendWorks()
     {
         var mediaTypes = await _mediaTypeService.GetAllAsync();
 
         return View(mediaTypes);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GenerateRecommendWorksResponse([FromBody] int mediaTypeId)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest("ModelType Id wasnt valid: " + mediaTypeId);
+
+        // DATA RETRIVE: Get mediaType of passed in mediaTypeId
+        var mediaType = await _mediaTypeService.GetByIdAsync(mediaTypeId);
+        if (mediaType is null)
+            return BadRequest("mediaType Id passed in was not valid");
+
+        // DATA RETRIVE: Get users mediaItems
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+        var mediaItems = await _mediaItemService.GetAllByUserIdAndMediaTypeIdAsync(userId, mediaTypeId);
+
+        // VALIDATION: user has no mediaItems handling
+        if (mediaItems.Count == 0)
+            return Json(new { response = "No items exits in Media Items" });
+
+        // DATA FORMATING: Construct prompt for api call
+        string mediaTypeSentence = $"The media type is {mediaType.Name}.";
+
+        string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
+        string mediaItemFullString = string.Join(",", mediaItemStrings);
+        string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
+        //TODO: Edit prompt below
+        //string prompt = "Generating Recommnd: " + mediaTypeSentence + mediaItemSentece;
+        var result = "Test recommend is working";
+
+        try
+        {
+            //var result = await _geminiService.GenerateTextAsync(prompt);
+            return Json(new { response = result });
+        }
+        catch (Exception)
+        {
+            return BadRequest("API response error.");
+        }
     }
 
 }
