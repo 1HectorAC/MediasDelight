@@ -57,15 +57,11 @@ public class AiFeatureController : Controller
 
         // DATA FORMATING: Construct prompt for api call
         string mediaTypeSentence = $"The media type is {mediaType.Name}.";
-
         string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
         string mediaItemFullString = string.Join(",", mediaItemStrings);
         string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
-
-        // ISSUE: Handle items not being recognized. Add to prompt.
-        // ISSUE: Add more response text formating to improve readability.
-        // ISSUE: Change return formating (respond, list of items not recognize). Add to prompt
-        string prompt = "Your goal is the help users better understand themselves and their media preferences by analyzing some data you are given. You will be given a media type and a list of media items with some information (Likes, Dislikes, rating out of 10). You will analyze them and respond with an analysis of their preference." + mediaTypeSentence + mediaItemSentece;
+        string setupSentence = "Your goal is the help users better understand themselves and their media preferences by analyzing some data you are given. You will be given a media type and a list of media items with some information (Likes, Dislikes, rating out of 10). You will analyze them and respond with an analysis of their preference. Here are some things to keep in mind. Try to be brief, meaningful and focus on describing the user in a couple paragraphs. Don’t add headlines or special characters to emphasis certain section. There is also no need to reference specific media Items in your response. ";
+        string prompt = setupSentence + mediaTypeSentence + mediaItemSentece;
 
         try
         {
@@ -108,17 +104,16 @@ public class AiFeatureController : Controller
 
         // DATA FORMATING: Construct prompt for api call
         string mediaTypeSentence = $"The media type is {mediaType.Name}.";
-
         string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
         string mediaItemFullString = string.Join(",", mediaItemStrings);
         string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
-        // TODO: Edit prompt below
-        //string prompt = "Assessing work:" + mediaTypeSentence + mediaItemSentece;
-        var result = "Test assess is working";
+        string assessSentence = $"The media item that you are assessing is called {data.MediaWorkName}. ";
+        string setupSentence = "Your goal is to assess whether the user will like or dislike a media item based on the information provided (a media type and a list of media items with some information including Likes, Dislikes, rating out of 10). You will try to analyze a given media item and respond with a rating out of 10 (0 being completely hated and 10 being the maximum enjoyment) about how much you think they will enjoy the work and a description of your reasoning. Try to be brief, meaningful and focus on describing your reasoning in a couple paragraphs. Don’t add headlines or special characters to emphasis certain section. There is also no need to reference specific media Items in your response. If you don’t recognized the media item that you will be assessing then forget everything else and just respond with \"Sorry, the media item you provided was not recognized.\". ";
+        string prompt = setupSentence + assessSentence + mediaTypeSentence + mediaItemSentece;
 
         try
         {
-            //var result = await _geminiService.GenerateTextAsync(prompt);
+            var result = await _geminiService.GenerateTextAsync(prompt);
             return Json(new { response = result });
         }
         catch (Exception)
@@ -156,17 +151,15 @@ public class AiFeatureController : Controller
 
         // DATA FORMATING: Construct prompt for api call
         string mediaTypeSentence = $"The media type is {mediaType.Name}.";
-
         string[] mediaItemStrings = mediaItems.Select(i => $"[{i.Name}::{i.Rating}::{i.Likes}::{i.Dislikes}]").ToArray();
         string mediaItemFullString = string.Join(",", mediaItemStrings);
         string mediaItemSentece = "The media items are format as follow: [title::rating::Likes::Dislikes],[title2::rating2::Likes2::Dislikes2],… and so on. Here are the media items: " + mediaItemFullString;
-        //TODO: Edit prompt below
-        //string prompt = "Generating Recommnd: " + mediaTypeSentence + mediaItemSentece;
-        var result = "Test recommend is working";
+        string setupSentence = "Your goal is to provide recommended media works based on the information provided (a media type and a list of media items with some information including Likes, Dislikes, rating out of 10). You will try to analyze the media items provided and respond with 3-5 media works, based on the Media Type provided, that the user might like as well as a description of your reasoning for each.  Here are some things to keep in mind.  Try to be brief, meaningful and focus on describing the reasoning in a couple paragraphs. Don’t add headlines or special characters to emphasis certain section. There is also no need to reference specific media Items in your response. ";
+        string prompt = setupSentence + mediaTypeSentence + mediaItemSentece;
 
         try
         {
-            //var result = await _geminiService.GenerateTextAsync(prompt);
+            var result = await _geminiService.GenerateTextAsync(prompt);
             return Json(new { response = result });
         }
         catch (Exception)
@@ -174,5 +167,4 @@ public class AiFeatureController : Controller
             return BadRequest("API response error.");
         }
     }
-
 }

@@ -16,8 +16,8 @@
     </div>
 }
 <div>
-    <label for="mediaWork" class="form-label">Media Work</label>
-    <input type="text" class="form-control" id="mediaWork" placeholder="The Great Gatsby" />
+    <label for="mediaWorkName" class="form-label">Media Work</label>
+    <input type="text" class="form-control" id="mediaWorkName" placeholder="The Great Gatsby" />
 </div>
 
 <span class="text-danger error"></span>
@@ -35,7 +35,7 @@
     submitBtn.addEventListener("click", e => {
         // DATA RETRIEVE: Get mediaType radio and mediaWorkName
         var radioChecked = document.querySelector('input[name="mediaTypes"]:checked');
-        var mediaWorkName = document.querySelector("#mediaWork").value;
+        var mediaWorkName = document.querySelector("#mediaWorkName").value;
 
         // VALIDATION: Check that mediaType radio and mediaWorkName text input are filled
         if (!radioChecked) {
