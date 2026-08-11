@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/MediasDelight.Web/MediasDelight.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MediasDelight.Web.Tests/MediasDelight.Web.Tests.csproj" />
+  </Folder>
 </Solution>
