@@ -15,12 +15,13 @@ public class MediaTypeService : IMediaTypeService
 
     public async Task<List<MediaType>> GetAllAsync()
     {
-        var mediaTypes = await _mediaTypeRepo.Query().ToListAsync();
+        var mediaTypes = await _mediaTypeRepo
+            .Query()
+            .AsNoTracking()
+            .ToListAsync();
 
         return mediaTypes;
     }
-
-
 
     public async Task<MediaType?> GetByIdAsync(int id)
     {
