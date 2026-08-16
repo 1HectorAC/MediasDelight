@@ -1,15 +1,18 @@
 :root{
-  --main-back: rgb(50, 55, 95);
-  --main-orange: rgb(255, 205, 41);
+  --main-back: #26282C;
+  --main-orange: #C96A37;
 }
 
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
+    
   }
 }
 
@@ -17,28 +20,45 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
   margin-bottom: 60px;
   background-color: var(--main-back);
+  color:white
 }
-h1, p{
-  color:white;
+
+/*
+.home-page {
+}*/
+
+/* All pages exept for home need top margin since nav is position fixed to overlay home page image */
+.other-page {
+  margin-top: 50px;
 }
-.button1{
+
+.transparent-navbar {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+  color: #fff !important;
+}
+
+.transparent-navbar .navbar-toggler {
+  border-color: rgb(255, 255, 255);
+}
+
+h1, p {
+  color: white;
+}
+
+.button1 {
   background-color: var(--main-orange);
 }
 
-.greyText{
-  color:rgb(230, 230, 230);
-}
-
-.headerSection{
-  padding: 24px;
+.greyText {
+  color: rgb(230, 230, 230);
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -48,4 +68,30 @@ h1, p{
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.home-hero {
+  position:relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+                    url("/images/peopleWatching.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Nav bar overlay affect, allow image to go under */
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
 }
