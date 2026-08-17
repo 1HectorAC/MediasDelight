@@ -55,6 +55,16 @@ h1, p {
 
 .button1 {
   background-color: var(--main-orange);
+  color:white;
+}
+.button1:hover{
+  color: var(--main-orange);
+  background-color:white;
+}
+.heroHeaderButton{
+width: 150px;
+font-size: 20px;
+font-weight: bold;
 }
 
 .greyText {
@@ -94,4 +104,39 @@ header {
   left: 0;
   width: 100%;
   z-index: 20;
+}
+
+.fascinate-regular {
+  font-family: "Fascinate", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.heroHeaderText{
+  font-size: 64px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px #000000;
+  line-height: 1;
+}
+
+.heroSubHeaderText{
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 16px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.cardSection{
+  display:flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cardInfo{
+  padding: 20px;
+  width: 250px;
+  background-color: #32353A;
+  color: var(--main-orange);
+  text-align: center;
+  border-radius: 5px;
 }
