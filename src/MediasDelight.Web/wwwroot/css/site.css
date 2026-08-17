@@ -1,4 +1,4 @@
-:root{
+:root {
   --main-back: #26282C;
   --main-orange: #C96A37;
 }
@@ -12,18 +12,22 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 16px;
-    
+
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 body {
   margin-bottom: 60px;
   background-color: var(--main-back);
-  color:white;
+  color: white;
 }
 
 /*
@@ -35,51 +39,52 @@ body {
   margin-top: 50px;
 }
 
-.transparent-navbar {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.navbar-brand, .nav-link, .navbar-toggler-icon {
-  color: #fff !important;
-}
-
-.transparent-navbar .navbar-toggler {
-  border-color: rgb(255, 255, 255);
-}
-
-h1, p {
+h1,
+p {
   color: white;
 }
 
 .button1 {
   background-color: var(--main-orange);
-  color:white;
+  color: white;
 }
-.button1:hover{
+
+.button1:hover {
   color: var(--main-orange);
-  background-color:white;
+  background-color: white;
 }
-.heroHeaderButton{
-width: 150px;
-font-size: 20px;
-font-weight: bold;
+
+.heroHeaderButton {
+  width: 150px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .greyText {
   color: rgb(230, 230, 230);
 }
+.orangeText{
+  color: var(--main-orange);
+}
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+.form-floating>.form-control-plaintext::placeholder,
+.form-floating>.form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating>.form-control-plaintext:focus::placeholder,
+.form-floating>.form-control:focus::placeholder {
   text-align: start;
 }
 
+.fascinate-regular {
+  font-family: "Fascinate", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/******** NAVBAR *********/
 /* Nav bar overlay affect, allow image to go under */
 header {
   position: absolute;
@@ -89,16 +94,31 @@ header {
   z-index: 20;
 }
 
-.fascinate-regular {
-  font-family: "Fascinate", system-ui;
-  font-weight: 400;
-  font-style: normal;
+.transparent-navbar {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
+.navbar-brand,
+.nav-link,
+.navbar-toggler-icon {
+  color: #fff !important;
+}
+
+.transparent-navbar .navbar-toggler {
+  border-color: rgb(255, 255, 255);
+}
+
+.active {
+  font-weight: bold;
+  color: white !important;
+  border-bottom: 2px solid white;
+}
 
 /******** HOME PAGE *********/
 .home-hero {
-  position:relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -108,29 +128,33 @@ header {
   margin: 0;
   padding: 0;
   background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
-                    url("/images/peopleWatching.jpg");
+    url("/images/peopleWatching.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-.heroHeaderText{
+
+.heroHeaderText {
   font-size: 64px;
   font-weight: bold;
   text-shadow: 2px 2px 4px #000000;
   line-height: 1;
 }
-.heroSubHeaderText{
+
+.heroSubHeaderText {
   text-shadow: 2px 2px 4px #000000;
   font-size: 16px;
   margin-top: 15px;
   margin-bottom: 30px;
 }
-.cardSection{
-  display:flex;
+
+.cardSection {
+  display: flex;
   justify-content: center;
   gap: 10px;
 }
-.cardInfo{
+
+.cardInfo {
   padding: 30px;
   width: 250px;
   background-color: #32353A;
@@ -138,17 +162,20 @@ header {
   text-align: center;
   border-radius: 5px;
 }
-span.cardIcon{
+
+span.cardIcon {
   font-variation-settings: 'OPSZ' 40;
   font-size: 40px;
-  color:white;
+  color: white;
   margin-bottom: 15px;
 }
-.cardHeadline{
+
+.cardHeadline {
   font-size: 22px;
   letter-spacing: .07em;
 }
-.cardText{
+
+.cardText {
   line-height: 1.3;
   font-size: 14px;
 }
