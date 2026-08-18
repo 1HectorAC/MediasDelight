@@ -55,6 +55,12 @@ p {
   background-color: white;
 }
 
+.dashboardButton{
+  width: 200px;
+  height: 100px;
+}
+
+
 .heroHeaderButton {
   width: 150px;
   font-size: 20px;
@@ -187,6 +193,10 @@ span.cardIcon {
   width: 50%;
   margin: 0 auto;
 }
+.cardCenterContainer2 {
+  width: 80%;
+  margin: 0 auto;
+}
 
 .cardCenter {
   background-color: var(--sub-back);
@@ -197,3 +207,4 @@ span.cardIcon {
   text-align: center;
   margin: 60px 0 30px 0;
 }
+
