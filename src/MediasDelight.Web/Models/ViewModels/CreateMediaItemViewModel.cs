@@ -17,14 +17,12 @@ public class CreateMediaItemViewModel
     [Range(0,10)]
     public int Rating {get; set;}
 
-    [StringLength(500)]
-    public string? Description {get; set;}
 
     [StringLength(500)]
-    public string? Likes {get; set;}
+    public required string Likes {get; set;}
 
     [StringLength(500)]
-    public string? Dislikes {get; set;}
+    public required string Dislikes {get; set;}
 
 
 }

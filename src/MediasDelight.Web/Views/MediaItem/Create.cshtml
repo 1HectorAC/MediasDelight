@@ -1,47 +1,63 @@
 @using MediasDelight.Web.Models.ViewModels
 @model CreateMediaItemViewModel
 
-<h1>Create MediaItem</h1>
+@{
+    ViewData["Title"] = "Create Media Item";
+    ViewData["BodyClass"] = "other-page";
+}
+<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
 
-@{/*
+<div class="cardCenterContainer">
+    <p>
+        / <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a>
+        / <a asp-action="Index" asp-controller="MediaItem">MediaItems</a>
+        / Create MediaItem
+    </p>
+    
+    <hr />
+    <br />
+    <form asp-action="Create" asp-controller="MediaItem" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <Label asp-for="Name">Name</Label>
+                <input asp-for="Name" type="text" class="form-control" placeholder="Name of Media Work" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-<form asp-action="Add" asp-controller="MediaItem" method="post">
-    <div class="row">
-        <div class="col-md-3">
-            <Label asp-for="Name">Name</Label>
-            <input asp-for="Name" type="text" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
+            <div class="col-md-4">
+                <Label asp-for="MediaTypeId">MediaType</Label>
+                @Html.DropDownListFor(n => n.MediaTypeId,
+            (SelectList)@ViewBag.mediaTypes,
+            "Select Media Type", new { @class = "form-control" })
+                <span asp-validation-for="MediaTypeId" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <Label asp-for="Rating">Rating</Label>
+                <input asp-for="Rating" type="number" max="10" min="0" class="form-control" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <Label asp-for="Likes">Likes</Label>
+                <textarea asp-for="Likes" type="textarea" class="form-control" rows="5"
+                          placeholder="Describe what you liked about it"></textarea>
+                <span asp-validation-for="Likes" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <Label asp-for="Dislikes">Dislikes</Label>
+                <textarea asp-for="Dislikes" type="text" class="form-control" rows="5"
+                          placeholder="Describe what you disliked about it"></textarea>
+                <span asp-validation-for="Dislikes" class="text-danger"></span>
+            </div>
 
-        <div class="col-md-2">
-            <Label asp-for="MediaTypeId">MediaType</Label>
-            @Html.DropDownListFor(n => n.MediaTypeId,
-        (SelectList)Model.MediaTypes,
-        "Select Media Type", new { @class = "form-control" })
-            <span asp-validation-for="MediaTypeId" class="text-danger"></span>
+            <div class="col-md-2 offset-5 text-center">
+                <br />
+                <button class="btn button1">Submit</button>
+            </div>
         </div>
-        <div class="col-md-1">
-            <Label asp-for="Rating">Rating</Label>
-            <input asp-for="Rating" type="number" max="10" min="0" class="form-control" />
-            <span asp-validation-for="Rating" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <Label asp-for="Likes">Likes</Label>
-            <input asp-for="Likes" type="text" class="form-control" />
-            <span asp-validation-for="Likes" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <Label asp-for="Dislikes">Dislikes</Label>
-            <input asp-for="Dislikes" type="text" class="form-control" />
-            <span asp-validation-for="Dislikes" class="text-danger"></span>
-        </div>
-        
-        <div class="col-md-2 offset-5 text-center">
-            <br/>
-            <button class="btn btn-primary">Submit</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 
-*/}
+
+
+

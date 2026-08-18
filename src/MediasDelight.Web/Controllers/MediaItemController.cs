@@ -44,6 +44,48 @@ public class MediaItemController : Controller
         return View(mediaItemsVm);
     }
 
+    public async Task<IActionResult> Create()
+    {
+        // Data Retrive: MediaTypes, for options selection in view.
+        var mediaTypes = await _mediaTypeService.GetAllAsync();
+        ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateMediaItemViewModel vm)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+
+        if (!ModelState.IsValid)
+        {
+            // Data Retrive: MediaTypes, for options selection in view.
+            var mediaTypes = await _mediaTypeService.GetAllAsync();
+            ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
+
+            return View(vm);
+        }
+
+        // Format & Add: mediaItem to db
+        var mediaItem = new MediaItem
+        {
+            Name = vm.Name,
+            UserId = userId,
+            MediaTypeId = vm.MediaTypeId,
+            Rating = vm.Rating,
+            Likes = vm.Likes,
+            Dislikes = vm.Dislikes,
+            TimeStamp = DateTime.UtcNow
+        };
+        await _service.AddAsync(mediaItem);
+
+        return RedirectToAction("Index");
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> Add(CreateMediaItemViewModel addItem)
     {
