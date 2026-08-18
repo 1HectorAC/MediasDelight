@@ -23,13 +23,42 @@
         <hr style="width:33%" />
     </div>
     <br />
-    <div
-        style="display:flex; justify-content:space-between; align-items:center; border: 1px solid rgb(190, 190, 190); padding: 10px">
-        <div style="width:80%">
-            <input type="text" class="form-control" style="width: 70%; display:inline-block;" />
-            <button class="btn button1" disabled>Enter</button>
+    <div style=" border: 1px solid rgb(190, 190, 190); padding: 10px">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="width:80%">
+                <input type="text" class="form-control" style="width: 70%; display:inline-block;" />
+                <button class="btn button1" disabled>Enter</button>
+            </div>
+            <div><a>Filter -</a></div>
         </div>
-        <div><a>Filter -</a></div>
+        <div style="display:flex; gap:5px">
+            <div class="filterLabel">Type:VideoGames</div>
+            <div class="filterLabel">MaxRating:10</div>
+            <div class="filterLabel">MinRating:0</div>
+        </div>
+        <div>
+            <hr />
+            <br/>
+            <div style="display:flex; gap:5px">
+                <select class="form-select">
+                    <option value="" disabled selected>Select Type</option>
+                    <option>Video Game</option>
+                    <option>Movie</option>
+                </select>
+                <select class="form-select">
+                    <option value="" disabled selected>Min Rating</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                <select class="form-select">
+                    <option value="" disabled selected>Max Rating</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <br/>
+
+        </div>
     </div>
     <br />
     <div>

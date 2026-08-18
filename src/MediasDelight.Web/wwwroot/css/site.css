@@ -123,6 +123,15 @@ a:hover {
   border-bottom-right-radius: 5px;
 }
 
+.filterLabel {
+  border-radius: 9px;
+  color: rgb(86, 86, 86);
+  background-color: rgb(255, 255, 255);
+  padding: 2px 5px 2px 5px;
+  margin: 5px;
+  font-size: 12px;
+}
+
 /******** NAVBAR *********/
 /* Nav bar overlay affect, allow image to go under */
 header {
