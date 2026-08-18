@@ -1,5 +1,6 @@
 :root {
   --main-back: #26282C;
+  --sub-back: #32353A;
   --main-orange: #C96A37;
 }
 
@@ -63,7 +64,8 @@ p {
 .greyText {
   color: rgb(230, 230, 230);
 }
-.orangeText{
+
+.orangeText {
   color: var(--main-orange);
 }
 
@@ -157,7 +159,7 @@ header {
 .cardInfo {
   padding: 30px;
   width: 250px;
-  background-color: #32353A;
+  background-color: var(--sub-back);
   color: var(--main-orange);
   text-align: center;
   border-radius: 5px;
@@ -178,4 +180,20 @@ span.cardIcon {
 .cardText {
   line-height: 1.3;
   font-size: 14px;
+}
+
+/******** GENERAL PAGE *********/
+.cardCenterContainer {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.cardCenter {
+  background-color: var(--sub-back);
+  padding: 70px;
+}
+
+.generalHeadline {
+  text-align: center;
+  margin: 60px 0 30px 0;
 }
