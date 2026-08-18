@@ -3,23 +3,45 @@
 
 <h1>Create MediaItem</h1>
 
-<form asp-action="Create" asp-controller="MediaItem" method="post">
-    <Label asp-for="Name">Name</Label>
-    <input asp-for="Name" type="text" />
-    <span asp-validation-for="Name" class="text-danger"></span>
+@{/*
 
-    @Html.DropDownListFor(n => n.MediaTypeId,
-        (SelectList)ViewBag.mediaTypes,
-        "Select Media Type", new { })
-    <span asp-validation-for="MediaTypeId" class="text-danger"></span>
+<form asp-action="Add" asp-controller="MediaItem" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <Label asp-for="Name">Name</Label>
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-    <Label asp-for="Rating">Rating</Label>
-    <input asp-for="Rating" type="number" max="10" min="0" />
-    <span asp-validation-for="Rating" class="text-danger"></span>
-
-    <Label asp-for="Description">Description</Label>
-    <input asp-for="Description" type="text" />
-    <span asp-validation-for="Description" class="text-danger"></span>
-
-    <button>Submit</button>
+        <div class="col-md-2">
+            <Label asp-for="MediaTypeId">MediaType</Label>
+            @Html.DropDownListFor(n => n.MediaTypeId,
+        (SelectList)Model.MediaTypes,
+        "Select Media Type", new { @class = "form-control" })
+            <span asp-validation-for="MediaTypeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-1">
+            <Label asp-for="Rating">Rating</Label>
+            <input asp-for="Rating" type="number" max="10" min="0" class="form-control" />
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <Label asp-for="Likes">Likes</Label>
+            <input asp-for="Likes" type="text" class="form-control" />
+            <span asp-validation-for="Likes" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <Label asp-for="Dislikes">Dislikes</Label>
+            <input asp-for="Dislikes" type="text" class="form-control" />
+            <span asp-validation-for="Dislikes" class="text-danger"></span>
+        </div>
+        
+        <div class="col-md-2 offset-5 text-center">
+            <br/>
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </div>
 </form>
+
+
+*/}

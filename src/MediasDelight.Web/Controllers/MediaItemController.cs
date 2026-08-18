@@ -41,18 +41,7 @@ public class MediaItemController : Controller
             Dislikes = i.Dislikes
         }).ToList();
 
-        // Data Retrive: MediaTypes, for options selection in view.
-        var mediaTypes = await _mediaTypeService.GetAllAsync();
-
-        // Formating: Main view model being returned to view
-        var vm = new MediaItemIndexPageViewModel
-        {
-            Items = mediaItemsVm,
-            AddItem = new CreateMediaItemViewModel { Name = string.Empty },
-            MediaTypes = new SelectList(mediaTypes, "Id", "Name")
-        };
-
-        return View(vm);
+        return View(mediaItemsVm);
     }
 
     [HttpPost]

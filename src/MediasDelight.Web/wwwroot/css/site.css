@@ -1,6 +1,7 @@
 :root {
   --main-back: #26282C;
   --sub-back: #32353A;
+  --darker-back: #131415;
   --main-orange: #C96A37;
 }
 
@@ -45,6 +46,14 @@ p {
   color: white;
 }
 
+a {
+  color: var(--main-orange)
+}
+
+a:hover {
+  color: white;
+}
+
 .button1 {
   background-color: var(--main-orange);
   color: white;
@@ -55,7 +64,7 @@ p {
   background-color: white;
 }
 
-.dashboardButton{
+.dashboardButton {
   width: 200px;
   height: 100px;
 }
@@ -90,6 +99,28 @@ p {
   font-family: "Fascinate", system-ui;
   font-weight: 400;
   font-style: normal;
+}
+
+.myTable {
+  --bs-table-bg: var(--main-back);
+  --bs-table-color: #fff;
+  --bs-table-border-color: var(--main-back);
+}
+
+.myTableRow {
+  --bs-table-bg: var(--darker-back);
+  border-radius: 15px !important;
+  padding-bottom: 15px;
+}
+
+.myTableRow>td:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.myTableRow>td:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 /******** NAVBAR *********/
@@ -193,6 +224,7 @@ span.cardIcon {
   width: 50%;
   margin: 0 auto;
 }
+
 .cardCenterContainer2 {
   width: 80%;
   margin: 0 auto;
@@ -207,4 +239,3 @@ span.cardIcon {
   text-align: center;
   margin: 60px 0 30px 0;
 }
-

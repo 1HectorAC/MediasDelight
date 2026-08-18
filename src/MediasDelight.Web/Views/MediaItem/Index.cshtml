@@ -1,54 +1,71 @@
 @using MediasDelight.Web.Models.ViewModels
-@model MediaItemIndexPageViewModel
+@model List<MediaItemViewModel>
 
-<h1> Media Items</h1>
-<hr />
-<h5 class="text-center">Add Item</h5>
-<form asp-action="Add" asp-controller="MediaItem" method="post">
-    <div class="row">
-        <div class="col-md-3">
-            <Label asp-for="AddItem.Name">Name</Label>
-            <input asp-for="AddItem.Name" type="text" class="form-control" />
-            <span asp-validation-for="AddItem.Name" class="text-danger"></span>
-        </div>
-
-        <div class="col-md-2">
-            <Label asp-for="AddItem.MediaTypeId">MediaType</Label>
-            @Html.DropDownListFor(n => n.AddItem.MediaTypeId,
-        (SelectList)Model.MediaTypes,
-        "Select Media Type", new { @class = "form-control" })
-            <span asp-validation-for="AddItem.MediaTypeId" class="text-danger"></span>
-        </div>
-        <div class="col-md-1">
-            <Label asp-for="AddItem.Rating">Rating</Label>
-            <input asp-for="AddItem.Rating" type="number" max="10" min="0" class="form-control" />
-            <span asp-validation-for="AddItem.Rating" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <Label asp-for="AddItem.Likes">Likes</Label>
-            <input asp-for="AddItem.Likes" type="text" class="form-control" />
-            <span asp-validation-for="AddItem.Likes" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <Label asp-for="AddItem.Dislikes">Dislikes</Label>
-            <input asp-for="AddItem.Dislikes" type="text" class="form-control" />
-            <span asp-validation-for="AddItem.Dislikes" class="text-danger"></span>
-        </div>
-        
-        <div class="col-md-2 offset-5 text-center">
-            <br/>
-            <button class="btn btn-primary">Submit</button>
-        </div>
-    </div>
-</form>
-
-<hr />
-<h5 class="text-center">All items</h5>
-@foreach (MediaItemViewModel i in Model.Items)
-{
-    <p>Title: @i.Name, MediaTypeName: @i.MediaTypeName, Rating: @i.Rating, Likes: @i.Likes, Dislikes: @i.Dislikes</p>
-    <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
+@{
+    ViewData["Title"] = "MediaItems Dashboard";
+    ViewData["BodyClass"] = "other-page";
 }
+
+<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+
+<div class="cardCenterContainer">
+    <div style="display:flex; justify-content:space-between">
+        <p>/ <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a> / MediaItems</p>
+        <a asp-action="Index" asp-controller="MediaItem">
+            <button class="btn button1" disabled>Add media Item</button>
+        </a>
+
+    </div>
+    <br />
+    <div style="text-align:center; display:flex">
+        <hr style="width:33%" />
+        <p style="width:33%">Media List</p>
+        <hr style="width:33%" />
+    </div>
+    <br />
+    <div
+        style="display:flex; justify-content:space-between; align-items:center; border: 1px solid rgb(190, 190, 190); padding: 10px">
+        <div style="width:80%">
+            <input type="text" class="form-control" style="width: 70%; display:inline-block;" />
+            <button class="btn button1" disabled>Enter</button>
+        </div>
+        <div><a>Filter -</a></div>
+    </div>
+    <br />
+    <div>
+        <table class="table myTable">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MediaItemViewModel i in Model)
+                {
+                    <tr class="myTableRow">
+                        <td>@i.Name</td>
+                        <td>@i.MediaTypeName</td>
+                        <td>@i.Rating</td>
+                        <td>
+                            <button class="btn button1" disabled>Info</button>
+                            <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div style="display:flex; justify-content:center; align-items:center; gap: 5px">
+        <button class="btn button1" disabled>Back</button>
+        <p style="margin:0"> 1</p>
+        <button class="btn button1" disabled>Next</button>
+    </div>
+
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
