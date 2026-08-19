@@ -22,16 +22,18 @@ public class MediaItemController : Controller
         _service = service;
         _mediaTypeService = mediaTypeService;
     }
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 3)
     {
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
             return RedirectToAction("Index", "Home");
 
-        // Formating: convert MediaItems to MediaItemsViewModel
+        // Formating data to PagedViewModel
         var mediaItems = await _service.GetAllByUserIdAsync(userId);
-        var mediaItemsVm = mediaItems.Select(i => new MediaItemViewModel
+        var totalItems = mediaItems.Count;
+        var mI2 = mediaItems.Skip((page - 1) * pageSize).Take(pageSize);
+        var mediaItemsVm = mI2.Select(i => new MediaItemViewModel
         {
             Id = i.Id,
             MediaTypeName = i.MediaType?.Name ?? "Empty Value",
@@ -40,8 +42,15 @@ public class MediaItemController : Controller
             Likes = i.Likes,
             Dislikes = i.Dislikes
         }).ToList();
+        var pagedViewModel = new PagedViewModel<MediaItemViewModel>
+        {
+            Items = mediaItemsVm,
+            PageNumber = page,
+            PageSize = pageSize,
+            TotalItems = totalItems
+        };
 
-        return View(mediaItemsVm);
+        return View(pagedViewModel);
     }
 
     public async Task<IActionResult> Create()

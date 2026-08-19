@@ -1,5 +1,5 @@
 @using MediasDelight.Web.Models.ViewModels
-@model List<MediaItemViewModel>
+@model PagedViewModel<MediaItemViewModel>
 
 @{
     ViewData["Title"] = "MediaItems Dashboard";
@@ -14,15 +14,16 @@
         <a asp-action="Create" asp-controller="MediaItem">
             <button class="btn button1">Add media Item</button>
         </a>
-
     </div>
     <br />
+
     <div style="text-align:center; display:flex">
         <hr style="width:33%" />
         <p style="width:33%">Media List</p>
         <hr style="width:33%" />
     </div>
     <br />
+
     <div style=" border: 1px solid rgb(190, 190, 190); padding: 10px">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="width:80%">
@@ -67,6 +68,7 @@
         </div>
     </div>
     <br />
+
     <div>
         <table class="table myTable">
             <thead>
@@ -78,28 +80,35 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (MediaItemViewModel i in Model)
+                @foreach (MediaItemViewModel i in Model.Items)
                 {
                     <tr class="myTableRow">
                         <td>@i.Name</td>
                         <td>@i.MediaTypeName</td>
                         <td>@i.Rating</td>
                         <td>
-                            <a asp-action="Edit" asp-controller="MediaItem" asp-route-id=@i.Id><button class="btn button1">Info</button></a>
-                            <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
+                            <a asp-action="Edit" asp-controller="MediaItem" asp-route-id=@i.Id><button
+                                class="btn button1">Info</button></a>
+                                <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
                         </td>
                     </tr>
-                }
+                    }
             </tbody>
         </table>
     </div>
+
     <br />
     <div style="display:flex; justify-content:center; align-items:center; gap: 5px">
-        <button class="btn button1" disabled>Back</button>
-        <p style="margin:0"> 1</p>
-        <button class="btn button1" disabled>Next</button>
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize">Previous</a>
+        }
+        <span>@Model.PageNumber of @Model.TotalPages</span>
+        @if (Model.HasNextPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize">Next</a>
+        }
     </div>
-
 </div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -118,19 +127,18 @@
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 
-<script>
-    const filterBtn = document.querySelector("#filterBtn");
-    const filtersSection = document.querySelector("#filtersSection");
-    filterBtn.addEventListener("click", () => {
-        filtersSection.classList.toggle("show");
-    });
-    function showDeleteModal(id) {
-        document.getElementById("deleteForm").action = "/MediaItem/Delete/" + id;
-        var modal = new bootstrap.Modal(document.getElementById("deleteModal"));
-        modal.show();
-    }
-</script>
+    <script>
+        const filterBtn = document.querySelector("#filterBtn");
+        const filtersSection = document.querySelector("#filtersSection");
+        filterBtn.addEventListener("click", () => {
+            filtersSection.classList.toggle("show");
+        });
+        function showDeleteModal(id) {
+            document.getElementById("deleteForm").action = "/MediaItem/Delete/" + id;
+            var modal = new bootstrap.Modal(document.getElementById("deleteModal"));
+            modal.show();
+        }
+    </script>
