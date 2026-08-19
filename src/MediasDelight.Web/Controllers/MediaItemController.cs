@@ -85,6 +85,48 @@ public class MediaItemController : Controller
         return RedirectToAction("Index");
     }
 
+    public async Task<IActionResult> Edit(int id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+
+        try
+        {
+            var mediaItem = await _service.GetByIdAsync(id);
+            if (mediaItem.UserId != userId)
+                return RedirectToAction("Index");
+
+            // Data Retrive: MediaTypes, for options selection in view.
+            var mediaTypes = await _mediaTypeService.GetAllAsync();
+            ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
+
+            return View(mediaItem);
+        }
+        catch (Exception)
+        {
+            return RedirectToAction("Index");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(MediaItem mediaItem)
+    {
+        if (!ModelState.IsValid)
+        {
+            // Data Retrive: MediaTypes, for options selection in view.
+            var mediaTypes = await _mediaTypeService.GetAllAsync();
+            ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
+
+
+            return View(mediaItem);
+        }
+
+        // TODO: need actual edit functionality
+
+        return RedirectToAction("Index");
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> Add(CreateMediaItemViewModel addItem)

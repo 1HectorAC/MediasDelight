@@ -85,7 +85,7 @@
                         <td>@i.MediaTypeName</td>
                         <td>@i.Rating</td>
                         <td>
-                            <button class="btn button1" disabled>Info</button>
+                            <a asp-action="Edit" asp-controller="MediaItem" asp-route-id=@i.Id><button class="btn button1">Info</button></a>
                             <button class="btn btn-danger" onclick="showDeleteModal(@i.Id)">Delete</button>
                         </td>
                     </tr>

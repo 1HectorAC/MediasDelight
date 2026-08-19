@@ -36,6 +36,12 @@ public class MediaItemService : IMediaItemService
         return mediaItems;
     }
 
+    public async Task<MediaItem> GetByIdAsync(int id)
+    {
+        var mediaItem = await _mediaItemRepo.GetByIdAsync(id) ?? throw new Exception();
+        return mediaItem;
+    }
+
     public async Task AddAsync(MediaItem mediaItem)
     {
         await _mediaItemRepo.AddAsync(mediaItem);
