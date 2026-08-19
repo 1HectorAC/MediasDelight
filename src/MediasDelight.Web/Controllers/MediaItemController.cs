@@ -22,7 +22,7 @@ public class MediaItemController : Controller
         _service = service;
         _mediaTypeService = mediaTypeService;
     }
-    public async Task<IActionResult> Index(int page = 1, int pageSize = 3)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 3, string searchTerm = "", int minRatingFilter = 0, int maxRatingFilter = 0)
     {
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -31,9 +31,14 @@ public class MediaItemController : Controller
 
         // Formating data to PagedViewModel
         var mediaItems = await _service.GetAllByUserIdAsync(userId);
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            mediaItems = mediaItems.Where(i => i.Name.ToLower() == searchTerm.ToLower()).ToList();
+        }
         var totalItems = mediaItems.Count;
-        var mI2 = mediaItems.Skip((page - 1) * pageSize).Take(pageSize);
-        var mediaItemsVm = mI2.Select(i => new MediaItemViewModel
+
+        var mediaItemsPage = mediaItems.Skip((page - 1) * pageSize).Take(pageSize);
+        var mediaItemsVm = mediaItemsPage.Select(i => new MediaItemViewModel
         {
             Id = i.Id,
             MediaTypeName = i.MediaType?.Name ?? "Empty Value",
