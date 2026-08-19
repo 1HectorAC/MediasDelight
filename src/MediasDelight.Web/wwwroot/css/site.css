@@ -132,6 +132,21 @@ a:hover {
   font-size: 12px;
 }
 
+.hidden {
+  display: none;
+}
+
+#filtersSection {
+  max-height: 0;
+  transition: max-height .5s ease;
+  overflow: hidden;
+}
+
+#filtersSection.show {
+  max-height: 200px;
+}
+
+
 /******** NAVBAR *********/
 /* Nav bar overlay affect, allow image to go under */
 header {

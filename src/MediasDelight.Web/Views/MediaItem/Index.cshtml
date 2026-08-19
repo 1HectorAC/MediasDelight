@@ -29,16 +29,16 @@
                 <input type="text" class="form-control" style="width: 70%; display:inline-block;" />
                 <button class="btn button1" disabled>Enter</button>
             </div>
-            <div><a>Filter -</a></div>
+            <div><a class="orangeText" id="filterBtn">Filter -</a></div>
         </div>
         <div style="display:flex; gap:5px">
             <div class="filterLabel">Type:VideoGames</div>
             <div class="filterLabel">MaxRating:10</div>
             <div class="filterLabel">MinRating:0</div>
         </div>
-        <div>
+        <div id="filtersSection" class="">
             <hr />
-            <br/>
+            <br />
             <div style="display:flex; gap:5px">
                 <select class="form-select">
                     <option value="" disabled selected>Select Type</option>
@@ -46,17 +46,23 @@
                     <option>Movie</option>
                 </select>
                 <select class="form-select">
-                    <option value="" disabled selected>Min Rating</option>
-                    <option>1</option>
-                    <option>2</option>
+                    <option value="0" selected>Min Rating</option>
+                    @for (var i = 1; i <= 10; i++)
+                    {
+                        <option value=@i>@i</option>
+                    }
+
                 </select>
                 <select class="form-select">
-                    <option value="" disabled selected>Max Rating</option>
-                    <option>1</option>
-                    <option>2</option>
+                    <option value="0" selected>Max Rating</option>
+                    @for (var i = 1; i <= 10; i++)
+                    {
+                        <option value=@i>@i</option>
+                    }
                 </select>
+                <button class="btn button1">Submit</button>
             </div>
-            <br/>
+            <br />
 
         </div>
     </div>
@@ -117,6 +123,11 @@
 </div>
 
 <script>
+    const filterBtn = document.querySelector("#filterBtn");
+    const filtersSection = document.querySelector("#filtersSection");
+    filterBtn.addEventListener("click", () => {
+        filtersSection.classList.toggle("show");
+    });
     function showDeleteModal(id) {
         document.getElementById("deleteForm").action = "/MediaItem/Delete/" + id;
         var modal = new bootstrap.Modal(document.getElementById("deleteModal"));
