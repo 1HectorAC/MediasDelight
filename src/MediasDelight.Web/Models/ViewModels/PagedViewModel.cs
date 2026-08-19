@@ -18,9 +18,9 @@ public class PagedViewModel<T>
 
     public string SearchTerm { get; set; } = "";
 
-    public string TypeFilter { get; set; } = "";
+    public int TypeIdFilter { get; set; }
 
-    public int MinRatingFilter { get; set; } = 0;
+    public int MinRatingFilter { get; set; }
 
-    public int MaxRatingFilter { get; set; } = 0;
+    public int MaxRatingFilter { get; set; }
 }

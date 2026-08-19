@@ -22,12 +22,15 @@ public class MediaItemController : Controller
         _service = service;
         _mediaTypeService = mediaTypeService;
     }
-    public async Task<IActionResult> Index(int page = 1, int pageSize = 3, string searchTerm = "", int minRatingFilter = 0, int maxRatingFilter = 0)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 3, string searchTerm = "", int? minRatingFilter = null, int? maxRatingFilter = null, int? typeIdFilter = null)
     {
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
             return RedirectToAction("Index", "Home");
+
+        if (maxRatingFilter < minRatingFilter)
+            minRatingFilter = maxRatingFilter;
 
         // Formating data to PagedViewModel
         var mediaItems = await _service.GetAllByUserIdAsync(userId);
@@ -52,9 +55,21 @@ public class MediaItemController : Controller
             Items = mediaItemsVm,
             PageNumber = page,
             PageSize = pageSize,
-            TotalItems = totalItems
+            TotalItems = totalItems,
+            SearchTerm = searchTerm,
+            TypeIdFilter = typeIdFilter ?? 0,
+            MinRatingFilter = minRatingFilter ?? 0,
+            MaxRatingFilter = maxRatingFilter ?? 0
         };
 
+        // Data Retrive: MediaTypes, for options selection in view.
+        var mediaTypes = await _mediaTypeService.GetAllAsync();
+        ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
+        if(typeIdFilter != null && typeIdFilter != 0){
+            ViewBag.mediaTypeName = mediaTypes.FirstOrDefault(i => i.Id == typeIdFilter)?.Name;
+        }
+        
+        Console.WriteLine("filters:" + typeIdFilter + " " + minRatingFilter + " " + maxRatingFilter);
         return View(pagedViewModel);
     }
 
