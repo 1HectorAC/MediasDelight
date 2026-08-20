@@ -4,13 +4,36 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{
+    string? currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+    string? currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+}
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserDashboard">Dashboard</a>
+        <a class="nav-link @(currentController == "Home" && currentAction == "UserDashboard" ? "active" : "")" asp-controller="Home" asp-action="UserDashboard">Dashboard</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+           aria-expanded="false">Manage Media</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item @(currentController == "MediaItem" && currentAction == "Index" ? "active" : "")"
+               asp-controller="MediaItem" asp-action="Index">MediaItems</a>
+            <a class="dropdown-item @(currentController == "MediaItem" && currentAction == "Create" ? "active" : "")"
+               asp-controller="MediaItem" asp-action="Create">Create MediaItem</a>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+           aria-expanded="false">AI Features</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item @(currentController == "AiFeature" && currentAction == "AnalyzeMe" ? "active" : "")"
+               asp-controller="AiFeature" asp-action="AnalyzeMe">Analyze Me</a>
+            <a class="dropdown-item @(currentController == "AiFeature" && currentAction == "AssessWork" ? "active" : "")"
+               asp-controller="AiFeature" asp-action="AssessWork">Analyze Work</a>
+            <a class="dropdown-item @(currentController == "AiFeature" && currentAction == "RecommendWorks" ? "active" : "")"
+               asp-controller="AiFeature" asp-action="RecommendWorks">Recommend</a>
+        </ul>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="MediaItem" asp-action="Index">MediaItems</a>
-    </li>
 }
