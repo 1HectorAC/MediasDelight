@@ -1,25 +1,41 @@
 @using System.Text.Json
 @model List<MediaType>
-<h1>Analyze Me Page</h1>
-<hr />
-<p>Description: Coming soon</p>
-<hr />
-<p>Select a Media Type:</p>
-@foreach (MediaType i in Model)
-{
-    <div class="form-check">
-        <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
-        @i.Name
-        <label class="form-check-label" for="mediaType-@i.Id"></label>
+
+@{
+    ViewData["Title"] = " Analyze Me";
+    ViewData["BodyClass"] = "other-page";
+}
+<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+
+<div class="cardCenterContainer">
+    <p>
+        / <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a>
+        / AnalyzeMe
+    </p>
+    <hr />
+    <br />
+    <div>
+        <p>Select a Media Type</p>
+        <div>
+            @foreach (MediaType i in Model)
+            {
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
+                    @i.Name
+                    <label class="form-check-label" for="mediaType-@i.Id"></label>
+                </div>
+            }
+        </div>
+
+        <span class="text-danger error"></span>
+        <button id="analyzeMeButton" class="btn button1">Analyze me Now!!!</button>
+        <hr />
+        <p class="text-center">Result</p>
+        <p id="responseSection"></p>
     </div>
 
-}
-<span class="text-danger error"></span>
-<button id="analyzeMeButton">Analyze me Now!!!</button>
-<hr />
+</div>
 
-<p>Result(<span id="mediaTypeIndicator"></span>):</p>
-<p id="responseSection"></p>
 
 <script>
     // DATA FORMATING: used in results section (indicate selection)
