@@ -3,6 +3,9 @@
   --sub-back: #32353A;
   --darker-back: #131415;
   --main-orange: #C96A37;
+  --main-orange-light:#ffffff;
+  --main-orange-dark: #ab460f;
+  --main-orange-darker: #682b0a;
 }
 
 html {
@@ -58,17 +61,41 @@ a:hover {
   background-color: var(--main-orange);
   color: white;
 }
+.button2{
+  color: var(--main-orange);
+  background-color: var(--main-orange-light);
+  border: 1px solid var(--main-orange);
+}
 
 .button1:hover {
   color: var(--main-orange);
   background-color: white;
+  
 }
 
 .dashboardButton {
   width: 200px;
   height: 100px;
+  padding: 10px;
+  color: var(--main-orange);
+  background-color: var(--main-orange-light);
+  border: 3px solid var(--main-orange);
 }
 
+.dashboardButton:hover{
+  color:white;
+  background-color: var(--main-orange-dark);
+  border: 3px solid white;
+
+}
+.dashboardButton span.cardIcon{
+  color: var(--main-orange-darker);
+  margin:0;
+}
+.dashboardButton:hover span.cardIcon{
+  color: white;
+  margin:0;
+}
 
 .heroHeaderButton {
   width: 150px;
@@ -151,6 +178,26 @@ a:hover {
   max-height: 200px;
 }
 
+.searchWithButtonContainer{
+  display:flex; 
+  align-items:center;
+}
+.searchWithButtonContainer input{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchWithButtonContainer button{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  
+}
+span.test{
+   font-variation-settings: 'OPSZ' 20;
+  font-size: 20px;
+ 
+}
+
 
 /******** NAVBAR *********/
 /* Nav bar overlay affect, allow image to go under */
@@ -168,10 +215,21 @@ header {
   box-shadow: none !important;
 }
 
+@media(max-width: 500px) {
+  .transparent-navbar {
+    background-color: var(--main-back) !important;
+  }
+}
+
 .navbar-brand,
 .nav-link,
 .navbar-toggler-icon {
   color: #fff !important;
+
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 .transparent-navbar .navbar-toggler {
@@ -207,6 +265,12 @@ header {
   line-height: 1;
 }
 
+@media(max-width: 500px) {
+  .heroHeaderText {
+    font-size: 40px;
+  }
+}
+
 .heroSubHeaderText {
   text-shadow: 2px 2px 4px #000000;
   font-size: 16px;
@@ -218,6 +282,15 @@ header {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+@media (max-width: 500px) {
+  .cardSection {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
 }
 
 .cardInfo {
@@ -252,6 +325,12 @@ span.cardIcon {
   margin: 0 auto;
 }
 
+@media(max-width: 500px) {
+  .cardCenterContainer {
+    width: 90%;
+  }
+}
+
 .cardCenterContainer2 {
   width: 80%;
   margin: 0 auto;
@@ -264,5 +343,24 @@ span.cardIcon {
 
 .generalHeadline {
   text-align: center;
-  margin: 60px 0 30px 0;
+  margin: 80px 0 0 0;
+}
+
+@media(max-width: 500px) {
+  .generalHeadline {
+    font-size: 40px;
+  }
+}
+
+.generalSubHeadline {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #c5c5c5;
+  font-style: italic;
+}
+
+.flexSeperateOnLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -7,30 +7,26 @@
 }
 
 <h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+<p class="generalSubHeadline">Manage your media Items here. View, Create, Edit or Delete them.</p>
 
 <div class="cardCenterContainer">
-    <div style="display:flex; justify-content:space-between">
-        <p>/ <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a> / MediaItems</p>
+    <div class="flexSeperateOnLine">
+        <p style="margin:0">/ <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a> / MediaItems</p>
         <a asp-action="Create" asp-controller="MediaItem">
             <button class="btn button1">Add media Item</button>
         </a>
     </div>
     <br />
-
-    <div style="text-align:center; display:flex">
-        <hr style="width:33%" />
-        <p style="width:33%">Media List</p>
-        <hr style="width:33%" />
-    </div>
     <br />
 
-    <div style=" border: 1px solid rgb(190, 190, 190); padding: 15px">
+    <div style=" border: 1px solid rgb(190, 190, 190); padding: 15px; border-radius: 5px">
         <form asp-action="Index" method="get">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="width:80%">
-                    <input name="searchTerm" type="text" class="form-control"
-                           style="width: 70%; display:inline-block;" />
-                    <button class="btn button1">Enter</button>
+                <div class="searchWithButtonContainer" style="width:80%;">
+                    <input name="searchTerm" type="text" class="form-control" placeholder="Search Media Item" />
+                    <button class="btn button1" >
+                        <span class="material-symbols-outlined test" style="color:white;">search</span>
+                    </button>
                 </div>
                 <div><a class="orangeText" id="filterBtn">Filter -</a></div>
             </div>
@@ -51,7 +47,7 @@
             </div>
             <div id="filtersSection">
                 <hr />
-                <p class="text-center">Filter Options:</p>
+                <p class="text-center">Filter Options</p>
                 <div style="display:flex; justify-content:center; gap:5px">
                     <div>
                         <label for="typeIdFilter">Type</label>
