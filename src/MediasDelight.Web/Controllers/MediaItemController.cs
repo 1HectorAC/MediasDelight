@@ -162,11 +162,24 @@ public class MediaItemController : Controller
             var mediaTypes = await _mediaTypeService.GetAllAsync();
             ViewBag.mediaTypes = new SelectList(mediaTypes, "Id", "Name");
 
-
             return View(mediaItem);
         }
 
-        // TODO: need actual edit functionality
+        // Validation: check user owns the mediaItem
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
+        if(userId != mediaItem.UserId)
+            return RedirectToAction("Index");
+
+        try
+        {
+            await _service.UpdateAsync(mediaItem);
+        }
+        catch
+        {
+            return RedirectToAction("Index");
+        }
 
         return RedirectToAction("Index");
     }

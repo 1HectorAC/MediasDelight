@@ -48,6 +48,20 @@ public class MediaItemService : IMediaItemService
         await _mediaItemRepo.SaveChangesAsync();
     }
 
+    public async Task UpdateAsync(MediaItem mediaItem)
+    {
+        var oldMediaItem = await _mediaItemRepo.GetByIdAsync(mediaItem.Id) ?? throw new Exception();
+        oldMediaItem.UserId = mediaItem.UserId;
+        oldMediaItem.MediaTypeId = mediaItem.MediaTypeId;
+        oldMediaItem.Name = mediaItem.Name;
+        oldMediaItem.Rating = mediaItem.Rating;
+        oldMediaItem.Likes = mediaItem.Likes;
+        oldMediaItem.Dislikes = mediaItem.Dislikes;
+
+        await _mediaItemRepo.SaveChangesAsync();
+
+    }
+
     public async Task DeleteAsync(int id)
     {
         var mediaItem = await _mediaItemRepo.GetByIdAsync(id) ?? throw new Exception();

@@ -14,6 +14,8 @@ public interface IMediaItemService
     
     Task AddAsync(MediaItem mediaItem);
 
+    Task UpdateAsync(MediaItem mediaItem);
+
     Task DeleteAsync(int id);
 
 }
