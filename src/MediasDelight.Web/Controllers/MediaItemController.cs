@@ -29,15 +29,30 @@ public class MediaItemController : Controller
         if (userId is null)
             return RedirectToAction("Index", "Home");
 
-        if (maxRatingFilter < minRatingFilter)
+        // Validation: check minRatingFilter is less than MaxRating Filter
+        if (minRatingFilter != 0 && maxRatingFilter != 0 && maxRatingFilter < minRatingFilter)
             minRatingFilter = maxRatingFilter;
-
-        // Formating data to PagedViewModel
+     
         var mediaItems = await _service.GetAllByUserIdAsync(userId);
+
+        // Formating: Apply filters
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             mediaItems = mediaItems.Where(i => i.Name.ToLower() == searchTerm.ToLower()).ToList();
         }
+        if(typeIdFilter != null && typeIdFilter != 0)
+        {
+            mediaItems = mediaItems.Where(i => i.MediaTypeId == typeIdFilter).ToList();
+        }
+        if(minRatingFilter != null && minRatingFilter != 0)
+        {
+            mediaItems = mediaItems.Where(i => i.Rating >= minRatingFilter).ToList();
+        }
+        if(maxRatingFilter != null && maxRatingFilter != 0)
+        {
+            mediaItems = mediaItems.Where(i => i.Rating <= maxRatingFilter).ToList();
+        }
+        
         var totalItems = mediaItems.Count;
 
         var mediaItemsPage = mediaItems.Skip((page - 1) * pageSize).Take(pageSize);
@@ -69,7 +84,7 @@ public class MediaItemController : Controller
             ViewBag.mediaTypeName = mediaTypes.FirstOrDefault(i => i.Id == typeIdFilter)?.Name;
         }
         
-        Console.WriteLine("filters:" + typeIdFilter + " " + minRatingFilter + " " + maxRatingFilter);
+        Console.WriteLine("Filters: " + typeIdFilter + " " + minRatingFilter + " " + maxRatingFilter);
         return View(pagedViewModel);
     }
 

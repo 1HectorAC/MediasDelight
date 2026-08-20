@@ -72,8 +72,7 @@
                             }
                         </select>
                     </div>
-
-                    
+    
                     <div>
                         <label for="maxRatingFilter">Max Rating</label>
                         <select name="maxRatingFilter" id="minRatingFilter" class="form-select">
@@ -128,12 +127,18 @@
         <div style="display:flex; justify-content:center; align-items:center; gap: 5px">
             @if (Model.HasPreviousPage)
             {
-                <a asp-action="Index" asp-route-page="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize">Previous</a>
+                <a asp-action="Index" asp-route-page="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchTerm="@Model.SearchTerm" asp-route-minRatingFilter="@Model.MinRatingFilter"
+                   asp-route-maxRatingFilter="@Model.MaxRatingFilter" asp-route-typeIdFilter="@Model.TypeIdFilter">
+                    Previous
+                </a>
             }
             <span>@Model.PageNumber of @Model.TotalPages</span>
             @if (Model.HasNextPage)
             {
-                <a asp-action="Index" asp-route-page="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize">Next</a>
+                <a asp-action="Index" asp-route-page="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchTerm="@Model.SearchTerm" asp-route-minRatingFilter="@Model.MinRatingFilter"
+                   asp-route-maxRatingFilter="@Model.MaxRatingFilter" asp-route-typeIdFilter="@Model.TypeIdFilter">Next</a>
             }
         </div>
     </div>
