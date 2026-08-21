@@ -100,10 +100,6 @@ public class MediaItemController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(CreateMediaItemViewModel vm)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId is null)
-            return RedirectToAction("Index", "Home");
-
         if (!ModelState.IsValid)
         {
             // Data Retrive: MediaTypes, for options selection in view.
@@ -112,6 +108,10 @@ public class MediaItemController : Controller
 
             return View(vm);
         }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+            return RedirectToAction("Index", "Home");
 
         // Format & Add: mediaItem to db
         var mediaItem = new MediaItem
