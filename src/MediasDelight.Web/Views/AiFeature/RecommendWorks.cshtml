@@ -1,26 +1,46 @@
 @using System.Text.Json
 @model List<MediaType>
 
-<h1>Recommend Works Page</h1>
-<hr />
-<p>Description: Coming soon</p>
-<hr />
-<p>Select a Media Type:</p>
-@foreach (MediaType i in Model)
-{
-    <div class="form-check">
-        <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
-        @i.Name
-        <label class="form-check-label" for="mediaType-@i.Id"></label>
-    </div>
+@{
+    ViewData["Title"] = " Recommend";
+    ViewData["BodyClass"] = "other-page";
 }
 
-<span class="text-danger error"></span>
-<button id="submitButton">Recommend Works!!!</button>
-<hr />
+<div class="cardCenterContainer">
+    <h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+    <p class="generalSubHeadline">Generate a list with description of recommended works based on you media entries.</p>
+    <p>
+        / <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a>
+        / Recommend
+    </p>
+    <hr />
 
-<p>Result(<span id="mediaTypeIndicator"></span>):</p>
-<p id="responseSection"></p>
+    <div style="display:flex; justify-content:center; flex-direction:column; align-items:center">
+        <div>
+            <p>Select a Media Type</p>
+            @foreach (MediaType i in Model)
+            {
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="mediaType-@i.Id" name="mediaTypes" value=@i.Id />
+                    @i.Name
+                    <label class="form-check-label" for="mediaType-@i.Id"></label>
+                </div>
+            }
+        </div>
+        <span class="text-danger error"></span>
+        <div>
+            <br />
+            <button id="submitButton" class="btn button1">Recommend Now!!!</button>
+        </div>
+    </div>
+    <br />
+    <div class="textLineDivider">
+        <hr />
+        <p>Results</p>
+        <hr />
+    </div>
+    <p id="responseSection"></p>
+</div>
 
 <script>
     // DATA FORMATING: used in results section (indicate selection)
@@ -47,7 +67,7 @@
             fetch("/AiFeature/GenerateRecommendWorksResponse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: radioValue 
+                body: radioValue
             }).then(async response => {
                 if (!response.ok) {
                     const error = await response.text();
@@ -66,7 +86,6 @@
             }).catch(err => {
                 console.log("Fetch error: " + err.message);
             })
-
         }
     });
 

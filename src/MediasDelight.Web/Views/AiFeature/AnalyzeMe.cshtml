@@ -5,18 +5,19 @@
     ViewData["Title"] = " Analyze Me";
     ViewData["BodyClass"] = "other-page";
 }
-<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
 
 <div class="cardCenterContainer">
+    <h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+    <p class="generalSubHeadline">Generate a description of who you are and what you like using your media entries.</p>
     <p>
         / <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a>
-        / AnalyzeMe
+        / Analyze Me
     </p>
     <hr />
-    <br />
-    <div>
-        <p>Select a Media Type</p>
+
+    <div style="display:flex; justify-content:center; flex-direction:column; align-items:center">
         <div>
+            <p>Select a Media Type</p>
             @foreach (MediaType i in Model)
             {
                 <div class="form-check">
@@ -26,14 +27,20 @@
                 </div>
             }
         </div>
+                    <span class="text-danger error"></span>
 
-        <span class="text-danger error"></span>
-        <button id="analyzeMeButton" class="btn button1">Analyze me Now!!!</button>
-        <hr />
-        <p class="text-center">Result</p>
-        <p id="responseSection"></p>
+        <div>
+            <br />
+            <button id="submitButton" class="btn button1">Analyze me Now!!!</button>
+        </div>
     </div>
-
+    <br />
+    <div class="textLineDivider">
+        <hr />
+        <p>Results</p>
+        <hr />
+    </div>
+    <p id="responseSection"></p>
 </div>
 
 
@@ -41,7 +48,7 @@
     // DATA FORMATING: used in results section (indicate selection)
     var mediaTypes = @Html.Raw(JsonSerializer.Serialize(Model));
 
-    var analyzeBtn = document.querySelector('#analyzeMeButton');
+    var analyzeBtn = document.querySelector('#submitButton');
     analyzeBtn.addEventListener("click", e => {
         // VALIDATION: Check if radio button was selected
         var radioChecked = document.querySelector('input[name="mediaTypes"]:checked');
@@ -79,7 +86,6 @@
             }).catch(err => {
                 console.log("Fetch error: " + err.message);
             })
-
         }
     });
 

@@ -243,6 +243,17 @@ a:hover {
   background-color: var(--darker-back);
 }
 
+.textLineDivider{
+  display:flex;
+  text-align: center;
+}
+.textLineDivider hr{
+  width: 33%;
+}
+.textLineDivider p{
+  width: 33%;
+  font-size: 18px;
+}
 
 /******** NAVBAR *********/
 /* Nav bar overlay affect, allow image to go under */
@@ -286,6 +297,7 @@ header {
   color: white !important;
   border-bottom: 2px solid white;
 }
+
 
 /******** HOME PAGE *********/
 .home-hero {
