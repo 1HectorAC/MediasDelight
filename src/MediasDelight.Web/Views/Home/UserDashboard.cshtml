@@ -2,14 +2,15 @@
     ViewData["Title"] = "Dashboard";
     ViewData["BodyClass"] = "other-page";
 }
-<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
-<p class="generalSubHeadline">Welcome! Manager media items or run AI related features here.</p>
 
 <div class="cardCenterContainer">
+    <h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+    <p class="generalSubHeadline">Welcome! Manager media items or run AI related features here.</p>
+
     <div class="flexSeperateOnLine">
         <p style="margin:0">/ Dashboard</p>
         <a asp-action="Index" asp-controller="MediaItem">
-            <button class="btn button1" >Manage Media Items</button>
+            <button class="btn button1">Manage Media Items</button>
         </a>
 
     </div>
@@ -24,15 +25,15 @@
         <a asp-action="AnalyzeMe" asp-controller="AiFeature">
             <button class="btn dashboardButton fascinate-regular">
                 <span class="material-symbols-outlined cardIcon">sentiment_satisfied</span>
-                <br/>
+                <br />
                 Analyze Me
-                
+
             </button>
         </a>
         <a asp-action="AssessWork" asp-controller="AiFeature">
             <button class="btn dashboardButton fascinate-regular">
                 <span class="material-symbols-outlined cardIcon">tv</span>
-                <br/>
+                <br />
                 Analyze Work
             </button>
         </a>
@@ -40,7 +41,7 @@
         <a asp-action="RecommendWorks" asp-controller="AiFeature">
             <button class="btn dashboardButton fascinate-regular">
                 <span class="material-symbols-outlined cardIcon">recommend</span>
-                <br/>
+                <br />
                 Recommend
             </button>
         </a>
