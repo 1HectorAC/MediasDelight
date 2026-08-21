@@ -17,7 +17,8 @@ public class AppDbContext: IdentityDbContext<ApplicationUser, IdentityRole, stri
         builder.Entity<MediaType>().HasData(
             new MediaType {Id= 1, Name="Movie"},
             new MediaType {Id= 2, Name="Show"},
-            new MediaType {Id= 3, Name="Video Game"}
+            new MediaType {Id= 3, Name="Video Game"},
+            new MediaType {Id= 4, Name="Book"}
         );
     }
 

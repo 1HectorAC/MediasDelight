@@ -1,18 +1,18 @@
-
 @model MediaItem
 @{
     ViewData["Title"] = "Edit Media Item";
     ViewData["BodyClass"] = "other-page";
 }
-<h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
 
 <div class="cardCenterContainer">
+    <h2 class="fascinate-regular generalHeadline">@ViewData["Title"]</h2>
+    <p class="generalSubHeadline">Edit your media item details.</p>
     <p>
         / <a asp-action="UserDashboard" asp-controller="Home">Dashboard</a>
         / <a asp-action="Index" asp-controller="MediaItem">MediaItems</a>
         / Edit MediaItem
     </p>
-    
+
     <hr />
     <br />
     <form asp-action="Edit" asp-controller="MediaItem" method="post">
@@ -34,8 +34,13 @@
                 <span asp-validation-for="MediaTypeId" class="text-danger"></span>
             </div>
             <div class="col-md-2">
-                <Label asp-for="Rating">Rating</Label>
-                <input asp-for="Rating" type="number" max="10" min="0" class="form-control" />
+                <label for"Rating">Rating</label>
+                <select name="Rating" id="Rating" class="form-select">
+                    @for(int i = 1; i <=10; i++){
+                        <option value="@i" selected="@(Model.Rating == i ? "selected": null)">@i</option>
+                    }
+                </select>
+               
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
             <div class="col-md-6">
@@ -51,7 +56,7 @@
                 <span asp-validation-for="Dislikes" class="text-danger"></span>
             </div>
 
-            <div class="col-md-2 offset-5 text-center">
+            <div class="col-md-2 offset-sm-5 text-center">
                 <br />
                 <button class="btn button1">Submit</button>
             </div>
