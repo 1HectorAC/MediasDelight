@@ -34,7 +34,7 @@ public class MediaItemServiceTests
         );
 
         await context.MediaTypes.AddRangeAsync(
-            new MediaType {Id = 1, Name = "Tv"}
+            new MediaType { Id = 1, Name = "Tv" }
         );
 
         await context.SaveChangesAsync();
@@ -110,6 +110,47 @@ public class MediaItemServiceTests
         Assert.True(mediaItems.All(i => i.UserId == userId && i.MediaTypeId == mediaTypeId));
 
     }
+    [Fact]
+    public async Task GetByIdAsync_NoMediaItems_ThrowExpection()
+    {
+        // Arrange
+        var repo = RepositoryHelper.Create<MediaItem>(out var context);
+        var service = new MediaItemService(repo);
+
+        // Act/ Assert
+        await Assert.ThrowsAsync<Exception>(async () =>
+        {
+            int id = 2;
+            var mediaItem = await service.GetByIdAsync(id);
+        });
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_WithMediaItemWithId_ReturnMediaItemWithMatchingId()
+    {
+        // Arrange
+        var repo = RepositoryHelper.Create<MediaItem>(out var context);
+        var service = new MediaItemService(repo);
+        await context.MediaItems.AddAsync(
+            new MediaItem
+            {
+                Id = 2,
+                MediaTypeId = 1,
+                UserId = "1",
+                Name = "Stuff",
+                Rating = 5,
+                TimeStamp = new DateTime(2025, 5, 5)
+            });
+        await context.SaveChangesAsync();
+
+        // Act
+        int id = 2;
+        var mediaItem = await service.GetByIdAsync(id);
+
+        //Assert
+        Assert.NotNull(mediaItem);
+        Assert.Equal(id, mediaItem.Id);
+    }
 
     [Fact]
     public async Task AddAsync_NoMediaItems_AddMediaItemToDatabase()
@@ -125,6 +166,50 @@ public class MediaItemServiceTests
         // Assert
         Assert.NotEmpty(context.MediaItems);
         Assert.Equal(1, context.MediaItems.Count());
+    }
+
+        [Fact]
+    public async Task UpdateAsync_WithNoMediaItem_ThrowException()
+    {
+        // Arrange
+        var repo = RepositoryHelper.Create<MediaItem>(out var context);
+        var service = new MediaItemService(repo);
+
+        // Act/Assert
+        var mediaItem = new MediaItem { Id = 2, MediaTypeId = 1, UserId = "1", Name = "Stuff", Rating = 5, TimeStamp = new DateTime(2025, 5, 5) };
+
+        await Assert.ThrowsAsync<Exception>(async () =>
+        {
+            await service.UpdateAsync(mediaItem);
+        });
+    }
+
+    [Fact]
+    public async Task UpdateAsync_WithMediaItem_UpdateMediaItemFromDb()
+    {
+        // Arrange
+        var repo = RepositoryHelper.Create<MediaItem>(out var context);
+        var service = new MediaItemService(repo);
+        await context.MediaItems.AddAsync(
+            new MediaItem
+            {
+                Id = 2,
+                MediaTypeId = 1,
+                UserId = "1",
+                Name = "Stuff",
+                Rating = 5,
+                TimeStamp = new DateTime(2025, 5, 5)
+            });
+        await context.SaveChangesAsync();
+
+        // Act
+        int id = 2;
+        string changeName = "Stuff2";
+        var mediaItem = await service.GetByIdAsync(id);
+        mediaItem.Name = changeName;
+        await service.UpdateAsync(mediaItem);
+        var mediaItem2 = await service.GetByIdAsync(id);
+        Assert.Equal(changeName, mediaItem2.Name);
     }
 
     [Fact]
